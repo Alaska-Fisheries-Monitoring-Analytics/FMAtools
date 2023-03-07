@@ -2,7 +2,7 @@
 #'
 #' \code{load_rdat} loads an object and assigns a new name in a single step
 #'
-#' @param flnm The path and filename to the object to be loaded
+#' @param fileName The path and filename to the object to be loaded
 #'
 #' @return Loads a object into .GlobalEnv and assigns a name
 #'
