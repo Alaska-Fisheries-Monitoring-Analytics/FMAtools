@@ -17,37 +17,40 @@
 #'
 #' @examples
 #' \dontrun{
-#'  con1 <- ak_db_connect()
-#'  tst <- odbc::dbGetQuery(con1, "SELECT * FROM norpac.atl_haul FETCH FIRST 10 ROWS ONLY")
-#'  nrow(tst)
+#' con1 <- ak_db_connect()
+#' tst <- odbc::dbGetQuery(con1, "SELECT * FROM norpac.atl_haul FETCH FIRST 10 ROWS ONLY")
+#' nrow(tst)
 #' }
 #'
 #' @export
 
-ak_db_connect <- function(){
-    require(odbc)
-    require(rstudioapi)
+ak_db_connect <- function() {
+  require(odbc)
+  require(rstudioapi)
 
-#-----------------------------------------------#
-# Define odbc connection to the Oracle database
-# default connection schema = your schema, with ability to connect to NORPAC and other schemas within AFSC database
-# Change "AFSC" to whatever the TNS alias is, that is defined on your machine, in the 'ORACLE' directory.  Contact IT if assistance is needed!
+  #-----------------------------------------------#
+  # Define odbc connection to the Oracle database
+  # default connection schema = your schema, with ability to connect to NORPAC and other schemas within AFSC database
+  # Change "AFSC" to whatever the TNS alias is, that is defined on your machine, in the 'ORACLE' directory.  Contact IT if assistance is needed!
 
-channel <- dbConnect(odbc::odbc(),"AFSC",
-                     UID    = rstudioapi::askForPassword("Enter your NORPAC Username:  "),
-                     PWD    = rstudioapi::askForPassword("Enter your NORPAC Password: "))
+  channel <- dbConnect(odbc::odbc(), "AFSC",
+    UID    = rstudioapi::askForPassword("Enter your NORPAC Username:  "),
+    PWD    = rstudioapi::askForPassword("Enter your NORPAC Password: ")
+  )
 
 
-#-------------------#
-# Test with a query
-test_haul_query <-
-  odbc::dbGetQuery(channel,
-                   "SELECT * FROM norpac.atl_haul WHERE rownum = 1")
+  #-------------------#
+  # Test with a query
+  test_haul_query <-
+    odbc::dbGetQuery(
+      channel,
+      "SELECT * FROM norpac.atl_haul WHERE rownum = 1"
+    )
 
-if(nrow(test_haul_query)==1){
-  message("Success - you are connected!")
-}else{
-  message("Sorry, something went wrong. Try again.")
-}
-return(channel)
+  if (nrow(test_haul_query) == 1) {
+    message("Success - you are connected!")
+  } else {
+    message("Sorry, something went wrong. Try again.")
+  }
+  return(channel)
 }

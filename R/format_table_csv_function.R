@@ -17,7 +17,6 @@
 #' @export
 
 format_table_csv <- function(tb, cp = NULL) {
-
   # if in some cases, the names have already been moved to a row...
   if (all(grepl("^X", names(tb)))) {
     names(tb) <- rep(" ", ncol(tb))

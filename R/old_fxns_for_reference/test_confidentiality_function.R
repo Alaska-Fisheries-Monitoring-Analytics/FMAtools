@@ -31,7 +31,7 @@ test_conf <- function(.df, ...) {
 
     if (stringr::str_detect(vid, "(?i)drvid")) {
       testdf <- .df %>%
-        #dplyr::rename(year = names(.df)[!is.na(stringr::str_extract(names(.df), "(?i)ryear|(^(?i)year)"))][1]) %>%
+        # dplyr::rename(year = names(.df)[!is.na(stringr::str_extract(names(.df), "(?i)ryear|(^(?i)year)"))][1]) %>%
         dplyr::group_by(...) %>%
         dplyr::summarise(num_obs_vessels = dplyr::n_distinct(get(vid))) %>%
         dplyr::ungroup() %>%
@@ -41,7 +41,7 @@ test_conf <- function(.df, ...) {
         qdf()
     } else {
       testdf <- .df %>%
-        #dplyr::rename(year = names(.df)[!is.na(stringr::str_extract(names(.df), "(?i)ryear|(^(?i)year)"))][1]) %>%
+        # dplyr::rename(year = names(.df)[!is.na(stringr::str_extract(names(.df), "(?i)ryear|(^(?i)year)"))][1]) %>%
         dplyr::group_by(...) %>%
         dplyr::filter(get(vid) < 3) %>%
         dplyr::select(...) %>%

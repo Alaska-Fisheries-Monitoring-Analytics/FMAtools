@@ -19,28 +19,26 @@
 #'
 #' @examples
 #' \dontrun{
-#'  # print filenames of file(s) with most recent date
-#'  find_dated_file(dte = "recent", path = "path2file", filename = "filename_or_partialname", imprt = FALSE)
+#' # print filenames of file(s) with most recent date
+#' find_dated_file(dte = "recent", path = "path2file", filename = "filename_or_partialname", imprt = FALSE)
 #'
-#'  # import file with most recent date in file name
-#'  # path + filename + most recent date (determined by \code{find_dated_file()})
-#'  #  must lead to a *single* file name which can be imported.  Otherwise, error.
-#'  find_dated_file(dte = "recent", path = "path2file", filename = "filename_or_partialname", imprt = TRUE)
-#'
+#' # import file with most recent date in file name
+#' # path + filename + most recent date (determined by \code{find_dated_file()})
+#' #  must lead to a *single* file name which can be imported.  Otherwise, error.
+#' find_dated_file(dte = "recent", path = "path2file", filename = "filename_or_partialname", imprt = TRUE)
 #' }
 #'
 #' @export
 
-find_dated_file <- function(dte, path, filename, imprt = TRUE, ...){
-
+find_dated_file <- function(dte, path, filename, imprt = TRUE, ...) {
   dte <- tolower(dte)
-  if(all(dte != "recent" && !grepl("-", dte))){
+  if (all(dte != "recent" && !grepl("-", dte))) {
     stop("The dte argument must either be the word 'recent' or a date of format YYYY-MM-DD")
   }
-    #check to ensure YYYY-MM-DD format of date
-  if(dte != "recent"){
+  # check to ensure YYYY-MM-DD format of date
+  if (dte != "recent") {
     isDTE <- IsDate(mydate = dte, date.format = "%F")
-    if(!isDTE){
+    if (!isDTE) {
       stop("The dte argument must be in the format of YYYY-MM-DD.")
     }
   }
@@ -50,46 +48,47 @@ find_dated_file <- function(dte, path, filename, imprt = TRUE, ...){
   #----------------------------------------------------
   path2file <- file.path(path)
 
-  filenms <- list.files(path = paste0(path, "/"),
-                        pattern = paste0("^(?i)", filename),
-                        full.names = FALSE, ignore.case = TRUE)
+  filenms <- list.files(
+    path = paste0(path, "/"),
+    pattern = paste0("^(?i)", filename),
+    full.names = FALSE, ignore.case = TRUE
+  )
 
   #----------------------------------------------------
   # Find the most recent version of a file by date
   # OR find the file with the specified dte argument
   #----------------------------------------------------
 
-  if(dte == "recent"){
-    #limit to files with most recent year as part of file name
+  if (dte == "recent") {
+    # limit to files with most recent year as part of file name
     filenms <- filenms[grepl(format(Sys.Date(), "%Y"), filenms)]
 
-      dts <- gsub("[A-Za-z]*", "", filenms)
-      dts <- gsub("(_)*|(\\.)*", "", dts)
-      dts <- gsub(paste0("(.*)(", data.year+1, ")(.)"), "\\2\\3", dts)
+    dts <- gsub("[A-Za-z]*", "", filenms)
+    dts <- gsub("(_)*|(\\.)*", "", dts)
+    dts <- gsub(paste0("(.*)(", data.year + 1, ")(.)"), "\\2\\3", dts)
 
-      dts <- lubridate::ymd(dts)
+    dts <- lubridate::ymd(dts)
 
-      requested_file <- filenms[grepl(dts[which.max(dts)], filenms)]
+    requested_file <- filenms[grepl(dts[which.max(dts)], filenms)]
 
-      print(requested_file)
-  }else{
+    print(requested_file)
+  } else {
     requested_file <- filenms[grepl(dte, filenms)]
   }
 
   #----------------------------------------------------
   # Import the requested file, if you like
   #----------------------------------------------------
-  if(imprt){
-    if(length(requested_file)>1){
+  if (imprt) {
+    if (length(requested_file) > 1) {
       stop("There are multiple files that match the criteria. Refine the file name so that criteria are met by a single file only OR import the file(s) needed from the list above in a separate step.")
     }
     # figure out if it's a csv or Rda
     ext <- ifelse(grepl("(?i)\\.csv", requested_file), "CSV", "RDATA")
-    if(ext == "CSV"){
-      read.csv(file = paste0(path,"/", requested_file),...)
-    }else{
-      load(file = paste0(path, "/",requested_file), ...)
+    if (ext == "CSV") {
+      read.csv(file = paste0(path, "/", requested_file), ...)
+    } else {
+      load(file = paste0(path, "/", requested_file), ...)
     }
   }
-
 }

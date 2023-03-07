@@ -16,60 +16,59 @@
 #' @export
 
 # A function for completing viability categories
-complete_viabs <- function(V, ...){
+complete_viabs <- function(V, ...) {
   # - Complete Cases for all Viability categories
   # ==============================================
 
-  distinct_viab_cats <- dplyr::distinct(V, VIABILITY)%>%pull
+  distinct_viab_cats <- dplyr::distinct(V, VIABILITY) %>% pull()
 
   # first a check to throw an error if mixing EPD with MIMOSD
 
-  if(any(distinct_viab_cats %in% hkl_injury_cats[1:3]) & any(distinct_viab_cats %in% btwlpot_viab_cats[1:2])){
+  if (any(distinct_viab_cats %in% hkl_injury_cats[1:3]) & any(distinct_viab_cats %in% btwlpot_viab_cats[1:2])) {
     stop("Error: Viabilities (E, P, D) are mixed with hook-&-line injuries (MI, MO, S, D).\nCheck to make sure that the data only represents a single gear type.")
   }
 
-  if(any(hkl_injury_cats[1:3] %in% distinct_viab_cats)){
-    if(all(hkl_injury_cats %in% distinct_viab_cats)){
+  if (any(hkl_injury_cats[1:3] %in% distinct_viab_cats)) {
+    if (all(hkl_injury_cats %in% distinct_viab_cats)) {
       return(V)
-    }else{
-
+    } else {
       mis_cats <- hkl_injury_cats[!hkl_injury_cats %in% distinct_viab_cats]
 
-      all_viabs <- V%>%
-        dplyr::distinct(..., LENGTH)%>%
+      all_viabs <- V %>%
+        dplyr::distinct(..., LENGTH) %>%
         tidyr::expand(..., LENGTH,
-                      VIABILITY = mis_cats)%>%
-        dplyr::anti_join(., distinct(V, ..., VIABILITY, LENGTH))%>%
+          VIABILITY = mis_cats
+        ) %>%
+        dplyr::anti_join(., distinct(V, ..., VIABILITY, LENGTH)) %>%
         qdf()
 
-      V <- V%>%
-        dplyr::full_join(., all_viabs)%>%
-        #dplyr::mutate(FREQUENCY = ifelse(is.na(FREQUENCY), 0, FREQUENCY))%>%
+      V <- V %>%
+        dplyr::full_join(., all_viabs) %>%
+        # dplyr::mutate(FREQUENCY = ifelse(is.na(FREQUENCY), 0, FREQUENCY))%>%
         qdf()
       return(V)
     }
   }
 
-  if(any(btwlpot_viab_cats[1:2] %in% distinct_viab_cats)){
-    if(all(btwlpot_viab_cats %in% distinct_viab_cats)){
+  if (any(btwlpot_viab_cats[1:2] %in% distinct_viab_cats)) {
+    if (all(btwlpot_viab_cats %in% distinct_viab_cats)) {
       return(V)
-    }else{
+    } else {
       mis_cats <- btwlpot_viab_cats[!btwlpot_viab_cats %in% distinct_viab_cats]
 
-      all_viabs <- V%>%
-        dplyr::distinct(..., LENGTH)%>%
+      all_viabs <- V %>%
+        dplyr::distinct(..., LENGTH) %>%
         tidyr::expand(..., LENGTH,
-                      VIABILITY = mis_cats)%>%
-        dplyr::anti_join(., distinct(V, ..., VIABILITY, LENGTH))%>%
+          VIABILITY = mis_cats
+        ) %>%
+        dplyr::anti_join(., distinct(V, ..., VIABILITY, LENGTH)) %>%
         qdf()
 
-      V <- V%>%
-        dplyr::full_join(., all_viabs)%>%
-        #dplyr::mutate(FREQUENCY = ifelse(is.na(FREQUENCY), 0, FREQUENCY))%>%
+      V <- V %>%
+        dplyr::full_join(., all_viabs) %>%
+        # dplyr::mutate(FREQUENCY = ifelse(is.na(FREQUENCY), 0, FREQUENCY))%>%
         qdf()
       return(V)
     }
   }
-
 }
-

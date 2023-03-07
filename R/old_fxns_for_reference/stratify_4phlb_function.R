@@ -48,7 +48,6 @@ stratify_4phlb <- function(df, sct = NULL, spc = SPC, gr = NULL,
                            d_dpth = NULL, d_names = NULL,
                            state = FALSE,
                            notes = NULL) {
-
   # Dont use KS version of OB.processing & get.sector, throws an error on 'count``
   source(paste0(path_R, "ob_processing_function.R"), local = FALSE)
   source(paste0(path_R, "get_sector_function.R"), local = FALSE)
@@ -207,10 +206,12 @@ stratify_4phlb <- function(df, sct = NULL, spc = SPC, gr = NULL,
   }
 
 
-  if (sct %in% c("Ridgeback Prawn", "Sea Cucumber")){
-    out <- out%>%
-      dplyr::mutate(area = "California",
-                    state = "CA")%>%
+  if (sct %in% c("Ridgeback Prawn", "Sea Cucumber")) {
+    out <- out %>%
+      dplyr::mutate(
+        area = "California",
+        state = "CA"
+      ) %>%
       qdf()
   }
 

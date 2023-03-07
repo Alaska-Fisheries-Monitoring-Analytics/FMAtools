@@ -1,5 +1,5 @@
-' Adds a Gear Type Categorical Variable to Observer or Fish Ticket Data
-#'
+" Adds a Gear Type Categorical Variable to Observer or Fish Ticket Data
+#"
 #' \code{gear.type} adds a gear type column to the FOS Observer or Fish Ticket data. Gear type is a categorical variable that lumps gear codes into larger categories.
 #'
 #' @param df data.frame containing the following fields: \code{GEAR} and either \code{sector} (from observer data) or \code{GRGROUP} (from fish ticket data).

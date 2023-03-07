@@ -19,23 +19,22 @@
 #'
 #' @examples
 #' \dontrun{
-#'   list_of_formatted_captions <- format_captions(x = table_file_name_df)
+#' list_of_formatted_captions <- format_captions(x = table_file_name_df)
 #' }
 #'
 #' @export
 
 format_caption <- function(x, captype, caplist) {
-
   # safety
   captype <- tolower(captype)
-  if(!any(grepl("tab|fig", captype))){
+  if (!any(grepl("tab|fig", captype))) {
     stop("Please enter a correct value for 'captype':\n    tab = table captions\n    fig = figure captions")
   }
 
 
-  if(grepl("(?i)tab", captype)){
+  if (grepl("(?i)tab", captype)) {
     pre_tag <- "tab"
-  }else{
+  } else {
     pre_tag <- "fig"
   }
 
@@ -43,15 +42,19 @@ format_caption <- function(x, captype, caplist) {
 
   caplist <- gsub("CAPTION: ", "", caplist)
 
-  code_hdrs <- paste0("<!-- ",
-                      gsub("\\.csv", "", x$table_file_names),
-                      " -->\n")
+  code_hdrs <- paste0(
+    "<!-- ",
+    gsub("\\.csv", "", x$table_file_names),
+    " -->\n"
+  )
 
-  cptr_frmtd <- paste0('`r table_nums(name = "',
-                           pre_tag, ':',
-                           tags_list, '", ',
-                           'caption = "',
-                           caplist, '")`\n')
+  cptr_frmtd <- paste0(
+    '`r table_nums(name = "',
+    pre_tag, ":",
+    tags_list, '", ',
+    'caption = "',
+    caplist, '")`\n'
+  )
 
   cptr_frmtd <- paste0(code_hdrs, cptr_frmtd)
 

@@ -37,22 +37,24 @@ chk_missing_nms <- function(df1, df2) {
 #'
 #' @export
 
-round_df <- function(df, digits, prnt=FALSE, sym="NA"){
-
+round_df <- function(df, digits, prnt = FALSE, sym = "NA") {
   nums <- vapply(df, is.double, FUN.VALUE = logical(1))
-  if(!any(nums)){return(df)}
+  if (!any(nums)) {
+    return(df)
+  }
 
-  nm.df <- names(nums[nums==T])
+  nm.df <- names(nums[nums == T])
 
-  if(prnt==F){
-    df[,nums] <- round(df[,nums], digits=digits)
-  }else{
-    df[,nums] <- unlist(lapply(df[,nums], FUN=function(x){
-      sprintf(paste("%.", digits, "f", sep=""), round(x, digits=digits)+0)
+  if (prnt == F) {
+    df[, nums] <- round(df[, nums], digits = digits)
+  } else {
+    df[, nums] <- unlist(lapply(df[, nums], FUN = function(x) {
+      sprintf(paste("%.", digits, "f", sep = ""), round(x, digits = digits) + 0)
     }))
-    if(sym!="NA") {for(i in 1:length(nm.df)){
-      df[df[, nm.df[i]]=="NA", nm.df[i]] <- as.character(sym)
-    }
+    if (sym != "NA") {
+      for (i in 1:length(nm.df)) {
+        df[df[, nm.df[i]] == "NA", nm.df[i]] <- as.character(sym)
+      }
     }
   }
   return(df)
@@ -144,10 +146,12 @@ qdr <- function(pth) {
 #' @export
 
 write_csv_list <- function(liste, fnms, rnms = FALSE) {
-  lapply(1:length(liste),
-         function(x){
-           write.csv(liste[[x]], file = fnms[x], row.names = rnms)})
-
+  lapply(
+    1:length(liste),
+    function(x) {
+      write.csv(liste[[x]], file = fnms[x], row.names = rnms)
+    }
+  )
 }
 
 #' Sort Columns of Data.Frame by Names of Another Data.Frame
@@ -221,7 +225,9 @@ namefix <- function(df) {
 #'
 #' @export
 
-scol <- function (x) {sort(names(x))}
+scol <- function(x) {
+  sort(names(x))
+}
 
 
 #' Makes Column Classes of two Data.Frames Consistent Across Common Column Names
@@ -267,7 +273,7 @@ match_col_classes <- function(df1, df2) {
 #'
 #' @export
 #'
-dots2char <- function(...){
+dots2char <- function(...) {
   chr <- as.character(unlist(rlang::exprs(...)))
   return(chr)
 }
@@ -367,7 +373,7 @@ subset_partial_year <- function(.df, .finalmonth = 12, .finalday = 31) {
 #'
 #' @export
 #'
-uni <- function(.x){
+uni <- function(.x) {
   out <- sort(unique(.x))
   return(out)
 }
