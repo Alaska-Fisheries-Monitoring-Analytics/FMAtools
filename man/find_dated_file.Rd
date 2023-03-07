@@ -7,13 +7,23 @@
 find_dated_file(dte, path, filename, imprt = TRUE, ...)
 }
 \arguments{
-\item{dte}{A character vector (length = 1) of either the word "recent", which will be used to find the file name with the most recent date OR a date (YYYY-MM-DD) which will be used to find the file name that contains the specified date.}
+\item{dte}{A character vector (length = 1) of either the word "recent",
+which will be used to find the file name with the most recent date OR
+a date (YYYY-MM-DD) which will be used to find the file name that contains
+the specified date.}
 
-\item{path}{A character vector (length = 1) of the path to search for files. Converted to \code{base::file.path()} and then passed to \code{base::list.files(path = path)}.}
+\item{path}{A character vector (length = 1) of the path to search for files.
+Converted to \code{base::file.path()} and then passed to
+\code{base::list.files(path = path)}.}
 
-\item{filename}{A character vector (length = 1) specifying the file name or parts thereof, including regular expressions, but excluding \code{dte}. Passed to\code{base::list.files(pattern = filename)}.}
+\item{filename}{A character vector (length = 1) specifying the file name or
+parts thereof, including regular expressions, but excluding \code{dte}.
+Passed to\code{base::list.files(pattern = filename)}.}
 
-\item{imprt}{A logical (default = TRUE). Do you wish to import the file? A \code{.csv} file will be imported using \code{base::read.csv()}, an R data file (\code{.Rda, .Rdata}) will be imported using \code{base::load()}.}
+\item{imprt}{A logical (default = TRUE). Do you wish to import the file?
+A \code{.csv} file will be imported using \code{base::read.csv()},
+an R data file (\code{.Rda, .Rdata}) will be imported using
+\code{base::load()}.}
 
 \item{...}{arguments passed to \code{base::read.csv()} or \code{base::load()}.}
 }
@@ -21,7 +31,9 @@ find_dated_file(dte, path, filename, imprt = TRUE, ...)
 Minimally, prints the name of the file(s). If \code{impt == TRUE}, imports a file.
 }
 \description{
-\code{find_dated_file} searches a path for a file with a particular date in the file name, or the file name with the most recent date, and optionally, imports the file.
+\code{find_dated_file} searches a path for a file with a particular date
+in the file name, or the file name with the most recent date, and optionally,
+imports the file.
 }
 \details{
 \code{FUNCTION NAME} DESCRIPTION

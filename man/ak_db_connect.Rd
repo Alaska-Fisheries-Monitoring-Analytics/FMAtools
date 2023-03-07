@@ -13,22 +13,27 @@ A connection to the AFSC database.
 \code{ak_db_connect} creates a connection to the AFSC database.
 }
 \details{
-\arguments{none.}
+This function takes no arguments.
 
-\code{ak_db_connect} takes no arguements.  It will ask for your AFSC username and password and then create and test a connection to the database.
+\code{ak_db_connect} takes no arguements.  It will ask for your AFSC username
+and password and then create and test a connection to the database.
 }
 \note{
-The function uses \code{odbc} to connect to the database. Currently only connects to AFSC Oracle database. Might be modified in the future to include other databases, e.g., AKRO.
+The function uses \code{odbc} to connect to the database. Currently
+only connects to AFSC Oracle database. Might be modified in the future to
+include other databases, e.g., AKRO.
 Note also that this will \emph{not} create a connection in Rstudio.
 }
 \examples{
 \dontrun{
 con1 <- ak_db_connect()
-tst <- odbc::dbGetQuery(con1, "SELECT * FROM norpac.atl_haul FETCH FIRST 10 ROWS ONLY")
+tst <- odbc::dbGetQuery(con1, "SELECT * FROM norpac.atl_haul
+                                                 FETCH FIRST 10 ROWS ONLY")
 nrow(tst)
 }
 
 }
 \seealso{
-\code{odbc::dbConnect, odbc::dbGetQuery()}, \code{rstudioapi::askForPassword()}
+\code{odbc::dbConnect, odbc::dbGetQuery()}
+\code{rstudioapi::askForPassword()}
 }

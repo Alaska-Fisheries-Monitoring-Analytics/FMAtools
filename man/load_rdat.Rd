@@ -7,7 +7,7 @@
 load_rdat(fileName)
 }
 \arguments{
-\item{flnm}{The path and filename to the object to be loaded}
+\item{fileName}{The path and filename to the object to be loaded}
 }
 \value{
 Loads a object into .GlobalEnv and assigns a name
