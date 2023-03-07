@@ -32,7 +32,7 @@ Note: this function does \emph{not} test for confidentaility - it assumes that t
 }
 \examples{
 \dontrun{
-masked_df <- mask_conf_data(conf_strata, conf_df, sybl = "CONFIDENTIAL DATA")
+masked_df <- mask_conf_data(confs = conf_strata, df = conf_df, sybl = "CONFIDENTIAL DATA", rnd = FALSE, decv = NULL)
 }
 
 }
