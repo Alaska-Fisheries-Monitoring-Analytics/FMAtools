@@ -1,0 +1,19 @@
+---
+title: "GIMME A GOOD TITLE WITH A DATE, 2002 - `r as.numeric(format(Sys.Date(), '%Y'))-1`"
+author: "Jason E. Jannot^[Fisheries Monitoring and Analysis Division, Alaska Fisheries Science Center, NOAA Fisheries, Seattle, WA 98115], SOMEBODY ELSE^[Fisheries Monitoring and Analysis Division, Alaska Fisheries Science Center, NOAA Fisheries, Seattle, WA 98115], Somebody^1^, Somebody^1^, Anotherbody^2^, Anotherbody^2^"
+date: "`r Sys.Date()`"
+output: 
+  word_document:
+    toc: true
+    toc_depth: 2
+    fig_caption: true
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE)
+```
+
+## An R Markdown Sandbox for AFSCFunctions
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:

@@ -1,0 +1,24 @@
+---
+title: "TODO_Lists"
+author: "Jason Jannot"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# WHERE I LEFT OFF:
+
+Add Functions
+
+## Completed?
+2023-03-06: created `ak_db_connect()`
+2023-03-06: created package, updated DESCRIPTION, added folders, added SCRATCH, Rmarkdown_SCRATCH, Notes, TODO_List, SetUp.R, AFSCFunctions-package.R
+
+# Notes
+
+
+***
+
