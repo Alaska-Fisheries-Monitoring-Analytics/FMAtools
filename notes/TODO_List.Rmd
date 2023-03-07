@@ -11,9 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # WHERE I LEFT OFF:
 
-Add Functions
+2023-03-06: trying to update to workflows such that using v2 as per https://github.com/r-lib/actions; however, running into issues.  See GitHub actions page for problems.
 
 ## Completed?
+
+
 2023-03-06: created `ak_db_connect()`
 2023-03-06: created package, updated DESCRIPTION, added folders, added SCRATCH, Rmarkdown_SCRATCH, Notes, TODO_List, SetUp.R, AFSCFunctions-package.R
 
