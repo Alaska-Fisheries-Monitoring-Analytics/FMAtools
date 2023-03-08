@@ -15,11 +15,25 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Completed?
 
+2023-03-08: All github actions were non-functional and therefore moved to \code{notes/.github} where they are safely ignored by R CMD checks.  Added to TODO list - Perhaps someday get them working.
+
+2023-03-08: pull out \code{subset_partial_year()} into it's own file
+
+2023-03-08: fix \code{read.csv} ==> \code{utils::read.csv} and \code{write.csv} ==> \code{utils::write.csv}
+
+2023-03-08: \code{find_dated_file}  - replaced \code{data.year + 1} with \code{ as.numeric(format(Sys.Date(), "%Y"))}
+
+2023-03-08: created \code{is_date_fmt()} based on function found here:
+https://gist.github.com/micstr/69a64fbd0f5635094a53?permalink_comment_id=3432683#gistcomment-3432683
+  
+\code{is_date_fmt()} is used in \code{find_dated_file()}
 
 2023-03-06: created `ak_db_connect()`
 2023-03-06: created package, updated DESCRIPTION, added folders, added SCRATCH, Rmarkdown_SCRATCH, Notes, TODO_List, SetUp.R, AFSCFunctions-package.R
 
-# Notes
+# TODOS
+## github workflows
+  1. See if you can get them working.  Located in \code {notes/.github}
 
 
 ***
