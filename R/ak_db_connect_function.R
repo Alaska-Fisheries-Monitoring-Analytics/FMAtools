@@ -30,9 +30,6 @@
 #' @export
 
 ak_db_connect <- function() {
-  require(odbc)
-  require(rstudioapi)
-
   #-----------------------------------------------#
   # Define odbc connection to the Oracle database
   # default connection schema = your schema, with ability to connect to NORPAC
@@ -41,10 +38,9 @@ ak_db_connect <- function() {
   #   in the 'ORACLE' directory.  Contact IT if assistance is needed!
 
   channel <- odbc::dbConnect(odbc::odbc(), "AFSC",
-    UID    = rstudioapi::askForPassword("Enter your NORPAC Username:  "),
+    UID    = rstudioapi::askForPassword("Enter your NORPAC Username: "),
     PWD    = rstudioapi::askForPassword("Enter your NORPAC Password: ")
   )
-
 
   #-------------------#
   # Test with a query

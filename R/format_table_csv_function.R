@@ -37,7 +37,7 @@ format_table_csv <- function(tb, cp = NULL) {
     # create a data.frame that includes the caption and give it names for rbinding
     cpt <- data.frame(X1 = cp, stringsAsFactors = FALSE) %>%
       cbind(., data.frame(matrix(" ", nrow = 1, ncol = ncol(tb)), stringsAsFactors = FALSE) %>%
-        dplyr::select(-one_of("X1")) %>% qdf()) %>%
+        dplyr::select(-tidyselect::any_of("X1")) %>% qdf()) %>%
       qdf()
   }
 

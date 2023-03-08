@@ -4,7 +4,7 @@
 \alias{shortnTab}
 \title{Shorten Tables for Printing}
 \usage{
-shortnTab(df)
+shortnTab(dat)
 }
 \arguments{
 \item{dat}{A data.frame that will be printed as a table with zeros at bottom that can be cut-off (i.e., zeros that are uninformative).}

@@ -16,10 +16,10 @@
 #'
 #' @export
 
-shortnTab <- function(df) {
-  oldnms <- names(df)
+shortnTab <- function(dat) {
+  oldnms <- names(dat)
 
-  df <- df %>%
+  dat <- dat %>%
     janitor::clean_names() %>%
     qdf()
 
@@ -28,12 +28,12 @@ shortnTab <- function(df) {
     "lenbin", "length_bin_cm", "lenbin_1"
   )
 
-  numCols <- vapply(df, is.numeric, FUN.VALUE = F)
+  numCols <- vapply(dat, is.numeric, FUN.VALUE = F)
 
   # could be more efficient with (.)apply function
   # Lower table cutoff
-  for (i in 1:nrow(df)) {
-    if (sum(df[i, !names(numCols) %in% excludecols]) > 0) {
+  for (i in 1:nrow(dat)) {
+    if (sum(dat[i, !names(numCols) %in% excludecols]) > 0) {
       if (i == 1) {
         lwrcutoff <- 1
         break
@@ -47,20 +47,20 @@ shortnTab <- function(df) {
     }
   }
 
-  for (i in floor(nrow(df) / 2):nrow(df)) {
+  for (i in floor(nrow(dat) / 2):nrow(dat)) {
     # in the instance where their are values all the way to the bottom
-    if (i == nrow(df)) {
-      uprcutoff <- nrow(df)
-      message(paste0("The upper cutoff (uprcutoff) is = nrow(df) = ", nrow(df)))
+    if (i == nrow(dat)) {
+      uprcutoff <- nrow(dat)
+      message(paste0("The upper cutoff (uprcutoff) is = nrow(dat) = ", nrow(dat)))
       # print(paste(i, uprcutoff, sep = " "))
       break
     }
-    if (sum(df[i, !names(numCols) %in% excludecols]) == 0) {
+    if (sum(dat[i, !names(numCols) %in% excludecols]) == 0) {
       uprcutoff <- i
       # check that there isnt just a weird set of zeros
       # between values greater than zero
       # print(paste(i, uprcutoff, sep = " "))
-      if (sum(df[(i + 1):nrow(df), !names(numCols) %in% excludecols]) == 0) {
+      if (sum(dat[(i + 1):nrow(dat), !names(numCols) %in% excludecols]) == 0) {
         message(paste0("The row number for the upper cutoff (uprcutoff) is = ", i - 1))
         break
       } else {

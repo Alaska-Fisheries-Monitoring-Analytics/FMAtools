@@ -20,12 +20,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' masked_df <- mask_conf_data(confs = conf_strata, df = conf_df, sybl = "CONFIDENTIAL DATA", rnd = FALSE, decv = NULL)
+#' masked_df <- mask_conf_data(confs = conf_strata, df = conf_df,
+#'       sybl = "CONFIDENTIAL DATA", rnd = FALSE, decv = NULL)
 #' }
 #'
 #' @export
 
-mask_conf_data <- function(confs, df, sybl = NULL, rnd = FALSE, decv = NULL) {
+mask_conf_data <- function(confs, df, sybl = NULL, rnd = FALSE, decv = NULL, ...) {
   if (is.character(confs)) {
     message(confs)
     return(df)

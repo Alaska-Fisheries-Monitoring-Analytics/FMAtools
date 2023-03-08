@@ -15,29 +15,32 @@
 #' parts thereof, including regular expressions, but excluding \code{dte}.
 #' Passed to\code{base::list.files(pattern = filename)}.
 #' @param imprt A logical (default = TRUE). Do you wish to import the file?
-#' A \code{.csv} file will be imported using \code{base::read.csv()},
+#' A \code{.csv} file will be imported using \code{utils::read.csv()},
 #' an R data file (\code{.Rda, .Rdata}) will be imported using
 #' \code{base::load()}.
-#' @param ... arguments passed to \code{base::read.csv()} or \code{base::load()}.
+#' @param ... arguments passed to \code{utils::read.csv()} or \code{base::load()}.
 #'
 #' @details
 #' \code{FUNCTION NAME} DESCRIPTION
 #'
 #' @note Most recent in this case, means the file name that contains the most recent date. The dte argument, if not 'recent', must be in the format of YYYY-MM-DD. Imported files can either be of \code{.csv} or \code{.Rda, .Rdata}.
 #'
-#' @seealso \code{base::list.files()}, \code{IsDate() (in R/helper_functions.R)}
+#' @seealso \code{base::list.files()}, \code{is_date_fmt() (in R/helper_functions.R)}
 #'
 #' @return Minimally, prints the name of the file(s). If \code{impt == TRUE}, imports a file.
 #'
 #' @examples
 #' \dontrun{
 #' # print filenames of file(s) with most recent date
-#' find_dated_file(dte = "recent", path = "path2file", filename = "filename_or_partialname", imprt = FALSE)
+#' find_dated_file(dte = "recent", path = "path2file",
+#'                 filename = "filename_or_partialname", imprt = FALSE)
 #'
 #' # import file with most recent date in file name
 #' # path + filename + most recent date (determined by \code{find_dated_file()})
-#' #  must lead to a *single* file name which can be imported.  Otherwise, error.
-#' find_dated_file(dte = "recent", path = "path2file", filename = "filename_or_partialname", imprt = TRUE)
+#' #  must lead to a *single* file name which can be imported.
+#' #   Otherwise, error.
+#' find_dated_file(dte = "recent", path = "path2file",
+#'                    filename = "filename_or_partialname", imprt = TRUE)
 #' }
 #'
 #' @export
@@ -50,7 +53,7 @@ YYYY-MM-DD")
   }
   # check to ensure YYYY-MM-DD format of date
   if (dte != "recent") {
-    isDTE <- IsDate(mydate = dte, date.format = "%F")
+    isDTE <- is_date_fmt(dte = dte, dtefmt = "%F")
     if (!isDTE) {
       stop("The dte argument must be in the format of YYYY-MM-DD.")
     }
@@ -78,7 +81,7 @@ YYYY-MM-DD")
 
     dts <- gsub("[A-Za-z]*", "", filenms)
     dts <- gsub("(_)*|(\\.)*", "", dts)
-    dts <- gsub(paste0("(.*)(", data.year + 1, ")(.)"), "\\2\\3", dts)
+    dts <- gsub(paste0("(.*)(", as.numeric(format(Sys.Date(), "%Y")), ")(.)"), "\\2\\3", dts)
 
     dts <- lubridate::ymd(dts)
 
@@ -100,7 +103,7 @@ the list above in a separate step.") }
     # figure out if it's a csv or Rda
     ext <- ifelse(grepl("(?i)\\.csv", requested_file), "CSV", "RDATA")
     if (ext == "CSV") {
-      read.csv(file = paste0(path, "/", requested_file), ...)
+      utils::read.csv(file = paste0(path, "/", requested_file), ...)
     } else {
       load(file = paste0(path, "/", requested_file), ...)
     }

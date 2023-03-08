@@ -193,17 +193,17 @@ most_recent_load_data_fxn <- function() {
       spcfle <- paste0("species groupings - master ", spcdte, ".csv")
 
 
-      SPC <<- read.csv(paste0(drive.load, spcfle),
+      SPC <<- utils::read.csv(paste0(drive.load, spcfle),
         stringsAsFactors = FALSE
       )
 
-      area.pcid <<- read.csv(paste0(drive.load, "All_Ports_011714_wAREAIFQ.csv"))
+      area.pcid <<- utils::read.csv(paste0(drive.load, "All_Ports_011714_wAREAIFQ.csv"))
 
       mldte <- gsub("(.*?)(Master_legend_)(.*?)(\\.csv', sep = ''\\))", "\\3", goodlines[grepl("Master_legend_", goodlines)])
 
       mlfle <- paste0("Master_legend_", mldte, ".csv")
 
-      ML <<- read.csv(
+      ML <<- utils::read.csv(
         file = paste0(drive.load, mlfle),
         header = TRUE,
         stringsAsFactors = FALSE

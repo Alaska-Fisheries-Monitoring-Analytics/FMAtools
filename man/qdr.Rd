@@ -13,7 +13,7 @@ qdr(pth)
 Returns the \code{.csv}, headers and with strings as characters.
 }
 \description{
-A simple wrapper function for \code{read.csv(file =..., header = TRUE, stringsAsFactors = FALSE)}
+A simple wrapper function for \code{utils::read.csv(file =..., header = TRUE, stringsAsFactors = FALSE)}
 }
 \examples{
 \dontrun{

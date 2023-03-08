@@ -4,7 +4,7 @@
 \alias{mask_conf_data}
 \title{Mask Confidential Data within Strata}
 \usage{
-mask_conf_data(confs, df, sybl = NULL, rnd = FALSE, decv = NULL)
+mask_conf_data(confs, df, sybl = NULL, rnd = FALSE, decv = NULL, ...)
 }
 \arguments{
 \item{confs}{A data.frame of confidential strata, usually from \code{stratify_4phlb}.}
@@ -32,7 +32,8 @@ Note: this function does \emph{not} test for confidentaility - it assumes that t
 }
 \examples{
 \dontrun{
-masked_df <- mask_conf_data(confs = conf_strata, df = conf_df, sybl = "CONFIDENTIAL DATA", rnd = FALSE, decv = NULL)
+masked_df <- mask_conf_data(confs = conf_strata, df = conf_df,
+      sybl = "CONFIDENTIAL DATA", rnd = FALSE, decv = NULL)
 }
 
 }
