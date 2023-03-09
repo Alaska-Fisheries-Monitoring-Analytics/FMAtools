@@ -1,33 +1,33 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# AFSCFunctions
+# FMA Analyst Functions
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/AFSCFunctions)](https://CRAN.R-project.org/package=AFSCFunctions)
+status](https://www.r-pkg.org/badges/version/FMA_Analyst_Functions)](https://CRAN.R-project.org/package=FMA_Analyst_Functions)
 <!-- badges: end -->
 
-The goal of AFSCFunctions is to create a collection of utility functions
-for use by the NOAA Fisheries AFSC FMA Analysts.
+The goal of FMA Analyst Functions is to create a collection of utility
+functions for use by the NOAA Fisheries AFSC FMA Analyst Team.
 
 ## Installation
 
-You can install the development version of AFSCFunctions from
+You can install the development version of FMA_Analyst_Functions from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jjannot-NOAA/AFSCFunctions")
+devtools::install_github("jjannot-NOAA/FMA_Analyst_Functions")
 ```
 
 <!-- ## Example -->
 <!-- This is a basic example which shows you how to solve a common problem: -->
 <!-- ```{r example} -->
-<!-- library(AFSCFunctions) -->
+<!-- library(FMA_Analyst_Functions) -->
 <!-- ## basic example code -->
 <!-- ``` -->
 <!-- What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so: -->
