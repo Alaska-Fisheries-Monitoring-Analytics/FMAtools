@@ -29,7 +29,7 @@ https://gist.github.com/micstr/69a64fbd0f5635094a53?permalink_comment_id=3432683
 \code{is_date_fmt()} is used in \code{find_dated_file()}
 
 2023-03-06: created `ak_db_connect()`
-2023-03-06: created package, updated DESCRIPTION, added folders, added SCRATCH, Rmarkdown_SCRATCH, Notes, TODO_List, SetUp.R, FMA_Analyst_Functions-package.R
+2023-03-06: created package, updated DESCRIPTION, added folders, added SCRATCH, Rmarkdown_SCRATCH, Notes, TODO_List, SetUp.R, FMAAnalystFunctions-package.R
 
 # TODOS
 ## github workflows

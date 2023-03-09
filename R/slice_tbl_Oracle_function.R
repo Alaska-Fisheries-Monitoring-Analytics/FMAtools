@@ -1,7 +1,7 @@
 #' @title Modified \code{dplyr::slice} to Work with Oracle Database
 #'
 #' @description \code{slice.tbl_Oracle} operates similar to
-#' \code{dplyr::slice()} by selecting rows using their position.#'
+#' \code{dplyr::slice()} by selecting rows using their position number.
 #'
 #' @param .data A lazy data frame backed by a database query.
 #' @param ordby A required variable or function of variables to order by.
@@ -42,9 +42,9 @@ slice.tbl_Oracle <- function(.data, ordby, ...) {
   ordby <- rlang::enquo(ordby)
 
   .data %>%
-    window_order(desc(!!ordby))%>%
-    mutate(...row_id = row_number()) %>%
-    filter(...row_id %in% !!rows) %>%
-    select(-...row_id)
+    dbplyr::window_order(dplyr::desc(!!ordby))%>%
+    dplyr::mutate(...row_id = dplyr::row_number()) %>%
+    dplyr::filter(...row_id %in% !!rows) %>%
+    dplyr::select(-...row_id)
 
 }

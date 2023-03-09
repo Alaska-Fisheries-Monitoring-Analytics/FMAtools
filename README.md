@@ -8,7 +8,7 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/FMA_Analyst_Functions)](https://CRAN.R-project.org/package=FMA_Analyst_Functions)
+status](https://www.r-pkg.org/badges/version/FMAAnalystFunctions)](https://CRAN.R-project.org/package=FMAAnalystFunctions)
 <!-- badges: end -->
 
 The goal of FMA Analyst Functions is to create a collection of utility
@@ -16,18 +16,18 @@ functions for use by the NOAA Fisheries AFSC FMA Analyst Team.
 
 ## Installation
 
-You can install the development version of FMA_Analyst_Functions from
+You can install the development version of FMAAnalystFunctions from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jjannot-NOAA/FMA_Analyst_Functions")
+devtools::install_github("jjannot-NOAA/FMAAnalystFunctions")
 ```
 
 <!-- ## Example -->
 <!-- This is a basic example which shows you how to solve a common problem: -->
 <!-- ```{r example} -->
-<!-- library(FMA_Analyst_Functions) -->
+<!-- library(FMAAnalystFunctions) -->
 <!-- ## basic example code -->
 <!-- ``` -->
 <!-- What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so: -->

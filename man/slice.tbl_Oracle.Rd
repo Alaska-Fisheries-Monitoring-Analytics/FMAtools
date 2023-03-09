@@ -21,7 +21,7 @@ Returns an object of the same type as \code{.data}.
 }
 \description{
 \code{slice.tbl_Oracle} operates similar to
-\code{dplyr::slice()} by selecting rows using their position.#'
+\code{dplyr::slice()} by selecting rows using their position number.
 }
 \details{
 \code{dplyr::slice()} does not work with relational databases because

@@ -5,7 +5,7 @@
 #'
 #' @author Jason E. Jannot (jason.jannot@@noaa.gov)
 #'
-#' @name FMA_Analyst_Functions
+#' @name FMAAnalystFunctions
 #' @docType package
 #' @keywords internal
 "_PACKAGE"
