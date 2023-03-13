@@ -6,7 +6,7 @@
 #'
 #' @return Loads a object into .GlobalEnv and assigns a name
 #'
-#' @seealso \code{load}, \code{new.env}
+#' @seealso \code{load}, \code{env}
 #'
 #' @examples
 #' \dontrun{
@@ -17,7 +17,7 @@
 
 load_rdat <- function(fileName) {
   env <- new.env()
-  nm <- load(fileName, env)
+  nm <- load(fileName, env)[1]
   env[[nm]]
 }
 
