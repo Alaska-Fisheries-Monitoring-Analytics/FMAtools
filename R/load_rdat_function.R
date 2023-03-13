@@ -20,3 +20,6 @@ load_rdat <- function(fileName) {
   nm <- load(fileName, env)[1]
   env[[nm]]
 }
+
+# adapted from:
+# https://stackoverflow.com/questions/5577221/how-can-i-load-an-object-into-a-variable-name-that-i-specify-from-an-r-data-file
