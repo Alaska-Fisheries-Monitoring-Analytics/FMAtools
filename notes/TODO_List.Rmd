@@ -11,9 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # WHERE I LEFT OFF:
 
-2023-03-06: trying to update to workflows such that using v2 as per https://github.com/r-lib/actions; however, running into issues.  See GitHub actions page for problems.
+
 
 ## Completed?
+2023-03-13: fix `load_rdat()`
 
 2023-03-08: All github actions were non-functional and therefore moved to \code{notes/.github} where they are safely ignored by R CMD checks.  Added to TODO list - Perhaps someday get them working.
 

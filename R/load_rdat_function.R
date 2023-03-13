@@ -6,7 +6,7 @@
 #'
 #' @return Loads a object into .GlobalEnv and assigns a name
 #'
-#' @seealso \code{load}, \code{get}
+#' @seealso \code{load}, \code{mget}
 #'
 #' @examples
 #' \dontrun{
@@ -19,5 +19,8 @@
 load_rdat <- function(fileName) {
   # loads an RData file, and returns it
   load(fileName)
-  get(ls()[ls() != "fileName"])
+  tmp <- unlist(strsplit(fileName, "/"))
+  lentmp <- length(tmp)
+  tmpflnm <- tmp[lentmp]
+  mget(ls()[ls() != "tmpflnm"])
 }
