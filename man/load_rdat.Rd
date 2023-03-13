@@ -22,5 +22,5 @@ d <- load_rdat("~/blah/somegood.Rda")
 
 }
 \seealso{
-\code{load}, \code{env}
+\code{load}, \code{new.env}
 }
