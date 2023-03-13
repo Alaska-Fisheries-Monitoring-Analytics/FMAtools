@@ -15,6 +15,10 @@ Loads a object into .GlobalEnv and assigns a name
 \description{
 \code{load_rdat} loads an object and assigns a new name in a single step
 }
+\note{
+\strong{BEWARE}: If multiple objects were entered under a single \code{save()} call, this
+function will only retrieve the \strong{first} object.
+}
 \examples{
 \dontrun{
 d <- load_rdat("~/blah/somegood.Rda")

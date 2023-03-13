@@ -4,6 +4,9 @@
 #'
 #' @param fileName The path and filename to the object to be loaded
 #'
+#' @note **BEWARE**: If multiple objects were entered under a single `save()` call, this
+#' function will only retrieve the **first** object.
+#'
 #' @return Loads a object into .GlobalEnv and assigns a name
 #'
 #' @seealso \code{load}, \code{new.env}
@@ -17,7 +20,7 @@
 
 load_rdat <- function(fileName) {
   env <- new.env()
-  nm <- load(fileName, env)
+  nm <- load(fileName, env)[1]
   env[[nm]]
 }
 
