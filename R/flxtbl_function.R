@@ -1,6 +1,6 @@
-#' Format Long Complicated Tables for P. halibut Report
+#' Format Long Complicated Tables
 #'
-#' A wrapper function to format data for the executive summary table that summarizes Pacific halibut bycatch in the U.S. west coast groundfish fisheries.  Typically, this output will be used in a MS Word document (\code{.docx}).
+#' A wrapper function to format complex data for a table.  Typically, this output will be used in a MS Word document (\code{.docx}).
 #'
 #' @param df A data.frame to be formatted
 #' @param hdrs a named list of headers for the table, e.g., \code{list( OlD.Hdr1 = "New Header", old_headr2 = "New Header 2")}
