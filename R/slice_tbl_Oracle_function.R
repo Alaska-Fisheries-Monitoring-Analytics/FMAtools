@@ -30,9 +30,11 @@
 #'
 #' @examples
 #' \dontrun{
-#'    db <- memdb_frame(x = 1:3, y = c(1, 1, 2))
-#'    db %>% slice(2)# Throws an error - dplyr::slice is not supported
-#'    db %>% slice.tbl_Oracle(., y, 2) %>% show_query()
+#' db <- memdb_frame(x = 1:3, y = c(1, 1, 2))
+#' db %>% slice(2) # Throws an error - dplyr::slice is not supported
+#' db %>%
+#'   slice.tbl_Oracle(., y, 2) %>%
+#'   show_query()
 #' }
 #'
 #' @export
@@ -42,9 +44,8 @@ slice.tbl_Oracle <- function(.data, ordby, ...) {
   ordby <- rlang::enquo(ordby)
 
   .data %>%
-    dbplyr::window_order(dplyr::desc(!!ordby))%>%
+    dbplyr::window_order(dplyr::desc(!!ordby)) %>%
     dplyr::mutate(...row_id = dplyr::row_number()) %>%
     dplyr::filter(...row_id %in% !!rows) %>%
     dplyr::select(-...row_id)
-
 }

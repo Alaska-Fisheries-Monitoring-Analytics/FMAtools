@@ -16,7 +16,10 @@
 #' @export
 #'
 
-is_date_fmt<- function(dte, dtefmt) {
+is_date_fmt <- function(dte, dtefmt) {
   tryCatch(!is.na(as.Date(as.character(dte), dtefmt)),
-           error = function(err) {FALSE})
+    error = function(err) {
+      FALSE
+    }
+  )
 }

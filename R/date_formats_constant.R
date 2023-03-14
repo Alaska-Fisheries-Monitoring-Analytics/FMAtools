@@ -9,6 +9,8 @@
 #'
 #' @return Returns a character vector of date formats.
 
-date_formats <- c("ymd HMS", "mdy HMS", "dmy HMS", "ymd HM", "mdy HM",
-                  "dmy HM", "ymd", "mdy", "dmy", "yBd", "Bdy", "dBy",
-                  "yBd HMS", "Bdy HMS", "dBy HMS", "yBd HM", "Bdy HM", "dBy HM")
+date_formats <- c(
+  "ymd HMS", "mdy HMS", "dmy HMS", "ymd HM", "mdy HM",
+  "dmy HM", "ymd", "mdy", "dmy", "yBd", "Bdy", "dBy",
+  "yBd HMS", "Bdy HMS", "dBy HMS", "yBd HM", "Bdy HM", "dBy HM"
+)

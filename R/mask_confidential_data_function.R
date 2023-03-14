@@ -20,8 +20,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' masked_df <- mask_conf_data(confs = conf_strata, df = conf_df,
-#'       sybl = "CONFIDENTIAL DATA", rnd = FALSE, decv = NULL)
+#' masked_df <- mask_conf_data(
+#'   confs = conf_strata, df = conf_df,
+#'   sybl = "CONFIDENTIAL DATA", rnd = FALSE, decv = NULL
+#' )
 #' }
 #'
 #' @export
