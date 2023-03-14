@@ -2,7 +2,7 @@
 % Please edit documentation in R/flxtbl_function.R
 \name{flxtbl_fxn}
 \alias{flxtbl_fxn}
-\title{Format Long Complicated Tables for P. halibut Report}
+\title{Format Long Complicated Tables}
 \usage{
 flxtbl_fxn(
   df = NULL,
@@ -33,7 +33,7 @@ flxtbl_fxn(
 \item{bd_part}{which part of the table should appear in \emph{bold}? one of 'all', 'body', 'header', 'footer'}
 }
 \description{
-A wrapper function to format data for the executive summary table that summarizes Pacific halibut bycatch in the U.S. west coast groundfish fisheries.  Typically, this output will be used in a MS Word document (\code{.docx}).
+A wrapper function to format complex data for a table.  Typically, this output will be used in a MS Word document (\code{.docx}).
 }
 \details{
 A wrapper around \code{flextable}.
