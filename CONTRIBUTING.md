@@ -10,8 +10,11 @@ This document describes how to contribute to this project.
 
 This project and everyone participating in it is governed by the [AFSC
 Code of
-Conduct](https://sites.google.com/noaa.gov/myafsc/home/about-afsc). By
-participating, you are expected to uphold this code.
+Conduct](https://sites.google.com/noaa.gov/myafsc/home/about-afsc) as
+well as the [Github and Git Guidance and Best Practices for NMFS
+Users](https://nmfs-opensci.github.io/GitHub-Guide/). By participating
+in this repository, you are expected to uphold these codes, guidance,
+and best practices.
 
 ## Team members
 
@@ -59,6 +62,14 @@ our Git workflow!* - Jason.
 
 For those interested a comparison of Git workflows can be found
 [here](https://www.atlassian.com/git/tutorials/comparing-workflows).
+
+## Data
+
+No PII or BII data or data that could identify fishers, individual
+fishing locations, or individual processors should be saved to this
+repository. Any such data will be removed immediately. For further
+guidance see: [Github and Git Guidance and Best Practices for NMFS
+Users](https://nmfs-opensci.github.io/GitHub-Guide/).
 
 ## Making Changes
 
