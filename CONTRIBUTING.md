@@ -104,17 +104,22 @@ For general guidelines, please see [Github’s Pull
 Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
 page.
 
-Other things to consider: \* In the message, please include the
-following headers: \* Description of the Issue or New Feature \*
-Description of What Has Been Done \* Usage \* Examples and/or how others
-might test the change \* Assign a Reviewer - this will most likely be
-the Merge Master. In the case of the Merge Master, this will be another
-appropriate contributor.
+In the message, please include the following headers:
+
+-   Description of the Issue or New Feature
+-   Description of What Has Been Done
+-   Usage
+    -   Examples and/or how others might test the change
+-   Assign a Reviewer - this will most likely be the Merge Master. In
+    the case of the Merge Master, this will be another appropriate
+    contributor.
 
 ### Coding conventions
 
 Start reading our code and you’ll get the hang of it. We optimize for
-readability:
+readability.
+
+-   Scripts should not be longer than 400-600 lines.
 
 -   Never use `rm(list = ls())` anywhere in your code. In the code there
     will be a `/scripts/0_Setup.R` file. This file will determine the
@@ -152,8 +157,16 @@ goal is to make the ride as smooth as possible.
 
 Keeping a tidy project requires maintaining order amongst files.
 
--   General folder structure is: –root –data –figures –notes –R –scripts
-    –tables –tests (optional)
+-   General folder structure is:
+
+    -   – root
+        -   – data
+        -   – figures
+        -   – notes
+        -   – R
+        -   – scripts
+        -   – tables
+        -   – tests (optional)
 
 -   root directory in addition to holding the folders (above), should
     only contain configuration and R package files.
@@ -200,6 +213,12 @@ Keeping a tidy project requires maintaining order amongst files.
 -   MergeMaster will delete the branch once the code has been merged.
 -   **DONT FORGET TO PULL the new code** to your local instance to get
     latest code.
+
+## Issues
+
+Submitting issues is encouraged. Please follow best practices which you
+can find described in various places on the web, such as
+[here](https://medium.com/nyc-planning-digital/writing-a-proper-github-issue-97427d62a20f) and [here](https://rewind.com/blog/best-practices-for-using-github-issues/).
 
 <!-- # Documentation -->
 <!-- This section includes any help you need with the documentation and where it can be found. Code needs explanation, and sometimes those who know the code well have trouble explaining it to someone just getting into it.  -->
