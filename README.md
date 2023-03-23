@@ -16,11 +16,33 @@ functions for use by the NOAA Fisheries AFSC FMA Analyst Team.
 
 ## Installation
 
-You can install the development version of FMAAnalystFunctions from
-[GitHub](https://github.com/) with:
+This is a private repo, you must first obtain permission from Jason
+Jannot to access this repo. Assuming that permission is granted you will
+need to set up a githubPAT:
+
+``` r
+#set config
+usethis::use_git_config(user.name = "YourName", user.email = "your@mail.com")
+
+#Go to github page to generate token - BE SURE TO COPY and SAVE the token somewhere you can find it.
+usethis::create_github_token()
+
+#click on Token and paste your PAT/new token into pop-up that follows...
+credentials::set_github_pat()
+```
+
+After that, you can install the development version of
+`FMAAnalystFunctions` from GitHub with:
 
 ``` r
 # install.packages("devtools")
+devtools::install_github("jjannot-NOAA/FMAAnalystFunctions")
+```
+
+If you have previously set up a githubPAT simply do this:
+
+``` r
+credentials::set_github_pat() # enter your Token if necessary, usually not
 devtools::install_github("jjannot-NOAA/FMAAnalystFunctions")
 ```
 
