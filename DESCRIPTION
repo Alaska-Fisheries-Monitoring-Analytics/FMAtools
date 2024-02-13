@@ -2,8 +2,11 @@ Package: FMAAnalystFunctions
 Title: A Collection of Utility Functions Used by AFSC FMA Analysts
 Version: 0.0.0.9000
 Authors@R: 
-    person("Jason", "Jannot", , "jason.jannot@noaa.gov", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-9231-1337"))
+    c(
+        person(given = "Jason", family = "Jannot", email = "jason.jannot@noaa.gov", role = c("aut", "cre"),
+            comment = c(ORCID = "0000-0002-9231-1337")),
+        person(given = "Geoffrey", family = "Mayhew", email = "geoff.mayhew@noaa.gov", role = c("aut"))
+    )
 Description: Utility functions used by AFSC FMA Analysts.
 License: MIT + file LICENSE
 Suggests: 
@@ -11,18 +14,22 @@ Suggests:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Imports:
-  dplyr,
-  flextable,
-  janitor,
-  lubridate,
-  odbc,
-  rlang,
-  rstudioapi,
-  stringi,
-  tidyselect,
-  utf8,
-  magrittr,
-  utils,
-  tidyverse
+    dplyr,
+    flextable,
+    janitor,
+    lubridate,
+    odbc,
+    rlang,
+    rstudioapi,
+    stringi,
+    tidyselect,
+    utf8,
+    magrittr,
+    utils,
+    googledrive,
+    gargle,
+    crayon,
+    readxl,
+    dbplyr
