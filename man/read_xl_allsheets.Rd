@@ -19,7 +19,7 @@ Returns a list of objects (likely data.frames) from multiple sheets in an MSExce
 }
 \examples{
 \dontrun{
-   mysheets <- read_excel_allsheets("foo.xls")
+mysheets <- read_excel_allsheets("foo.xls")
 }
 
 }

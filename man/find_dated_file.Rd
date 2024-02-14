@@ -44,15 +44,19 @@ Most recent in this case, means the file name that contains the most recent date
 \examples{
 \dontrun{
 # print filenames of file(s) with most recent date
-find_dated_file(dte = "recent", path = "path2file",
-                filename = "filename_or_partialname", imprt = FALSE)
+find_dated_file(
+  dte = "recent", path = "path2file",
+  filename = "filename_or_partialname", imprt = FALSE
+)
 
 # import file with most recent date in file name
 # path + filename + most recent date (determined by \code{find_dated_file()})
 #  must lead to a *single* file name which can be imported.
 #   Otherwise, error.
-find_dated_file(dte = "recent", path = "path2file",
-                   filename = "filename_or_partialname", imprt = TRUE)
+find_dated_file(
+  dte = "recent", path = "path2file",
+  filename = "filename_or_partialname", imprt = TRUE
+)
 }
 
 }

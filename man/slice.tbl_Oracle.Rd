@@ -39,9 +39,11 @@ https://stackoverflow.com/questions/59217666/dbplyr-dplyr-and-functions-with-no-
 }
 \examples{
 \dontrun{
-   db <- memdb_frame(x = 1:3, y = c(1, 1, 2))
-   db \%>\% slice(2)# Throws an error - dplyr::slice is not supported
-   db \%>\% slice.tbl_Oracle(., y, 2) \%>\% show_query()
+db <- memdb_frame(x = 1:3, y = c(1, 1, 2))
+db \%>\% slice(2) # Throws an error - dplyr::slice is not supported
+db \%>\%
+  slice.tbl_Oracle(., y, 2) \%>\%
+  show_query()
 }
 
 }
