@@ -4,10 +4,12 @@
 \alias{gdrive_dir}
 \title{Show the Folder Structure of the Shared Google Drive}
 \usage{
-gdrive_dir(shared_id = c("Analytics"))
+gdrive_dir(shared_id = c("Analytics"), folder = NULL)
 }
 \arguments{
 \item{shared_id}{An alias of a Shared Google Drive. By default, the drive for FMA Analytics.}
+
+\item{folder}{A character file path of folders, i.e., "Projects", that will narrow down your search.}
 }
 \value{
 Returns a data frame of the folder structure of the Shared Google Drive.
@@ -15,7 +17,8 @@ Returns a data frame of the folder structure of the Shared Google Drive.
 \description{
 Prints the structure of the Shared Google Drive to the console. It provides a count of the files within
 each folder and all subfolders. Items in the 'path' column can be copy-pasted to use as the
-\code{gdrive_path} argument of the \code{gdrive_set_dribble(gdrive_path)} function.
+\code{gdrive_path} argument of the \code{gdrive_set_dribble(gdrive_path)} function. Highly recommended to use the \code{folder}
+argument as it will speed up your search.
 }
 \details{
 Use this function to retrieve the file paths of every folder in the Shared Google Drive.
