@@ -316,7 +316,7 @@ dir_search <- function(dribble) {
     if( nrow(drive_items) == 0 ) {
       dribble_lst[[i]] <- list(
         parent = parent[i,],
-        child = NULL
+        child = parent[0, c("name", "id", "drive_resource")]
       )
     } else {
 
