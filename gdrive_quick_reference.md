@@ -126,7 +126,7 @@ does not print the name of enclosed folders.
 
 ------------------------------------------------------------------------
 
-### **gdrive_ver()**
+### **gdrive_versions()** {#gdrive_versions}
 
 **Syntax:** `gdrive_versions(gdrive_file, gdrive_dribble)`
 
