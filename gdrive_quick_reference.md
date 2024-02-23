@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # Shared Google Drive - Quick Reference
 
 These functions can be used to streamline our workflow by using our
