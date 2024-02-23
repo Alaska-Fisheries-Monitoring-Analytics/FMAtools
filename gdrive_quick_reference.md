@@ -47,7 +47,7 @@ Three more functions are useful for reference:
 
 -   [`gdrive_dir()`](#gdrive_dir) : prints the file structure of the
     Shared Gdrive
--   [`gdrive_ls()`](#gdrive_) : prints the contents a specified folder
+-   [`gdrive_ls()`](#gdrive_ls) : prints the contents a specified folder
     on the Shared Gdrive
 -   [`gdrive_versions()`](#gdrive_versions) : prints the version history
     of a file on the Shared Gdrive
@@ -57,7 +57,7 @@ reference.
 
 ------------------------------------------------------------------------
 
-### **gdrive_set_dribble()** {#gdrive_set_dribble}
+### gdrive_set_dribble()
 
 **Syntax:** `gdrive_set_dribble(gdrive_path, shared_id = "Analytics")`
 
@@ -68,7 +68,7 @@ function to look up the folder path for your desired folder.
 
 ------------------------------------------------------------------------
 
-### **gdrive_upload()** {#gdrive_upload}
+### gdrive_upload()
 
 **Syntax:** `gdrive_upload(local_path, gdrive_dribble)`
 
@@ -81,7 +81,7 @@ checked).
 
 ------------------------------------------------------------------------
 
-### **gdrive_download()** {#gdrive_download}
+### gdrive_download()
 
 **Syntax:** `gdrive_download(local_path, gdrive_dribble)`
 
@@ -96,7 +96,7 @@ history of a file.
 
 ------------------------------------------------------------------------
 
-### **gdrive_dir()** {#gdrive_dir}
+### gdrive_dir()
 
 **Syntax:** `gdrive_dir(shared_id = "Analytics", folder = NULL)`
 
@@ -110,7 +110,7 @@ narrow down the search, .e.g. `Projects/Your_Project_Name`. Use the
 
 ------------------------------------------------------------------------
 
-### **gdrive_ls()** {#gdrive_ls}
+### gdrive_ls()
 
 **Syntax:** `gdrive_ls(gdrive_dribble)`
 
@@ -120,7 +120,7 @@ does not print the name of enclosed folders.
 
 ------------------------------------------------------------------------
 
-### **gdrive_versions()** {#gdrive_versions}
+### gdrive_versions()
 
 **Syntax:** `gdrive_versions(gdrive_file, gdrive_dribble)`
 
