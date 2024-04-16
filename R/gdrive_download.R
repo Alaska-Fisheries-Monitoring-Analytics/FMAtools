@@ -31,9 +31,11 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
   g_path <- parse_dribble(gdrive_dribble, l_path)
 
   # Can the directory in local_path be found?
-  if( !file_test(op = "-d",  l_path$directory) ) {
-    stop(paste0("Local path, ", crayon::bold(l_path$directory), ", not found."))}
-
+  if( nchar(l_path$directory) > 0 ) {
+    if( !file_test(op = "-d",  l_path$directory) ) {
+      stop(paste0("Local path, ", crayon::bold(l_path$directory), ", not found."))}
+  }
+  
   if( is.null(ver) ){
     # *Downloading the most recent version*
     if( l_path$local_exists ){
