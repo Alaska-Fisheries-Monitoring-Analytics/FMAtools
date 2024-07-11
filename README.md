@@ -26,7 +26,7 @@ devtools::install_github("Alaska-Fisheries-Monitoring-Analytics/FMAtools")
 If you intend to use the `gdrive_` functions of this package, you must
 first authorize the `googledrive::` package to access your NOAA
 account’s Google Drive. Run the following line to open a browser window
-to do this, which must be done only once.
+to do this, which must be done only once. **Make sure to check the box granting the package access to your files!** You will otherwise get 403 errors for insufficient permissions!
 
 ``` r
 # Authorize the googledrive:: package to access your NOAA Google Drive
