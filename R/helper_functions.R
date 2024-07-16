@@ -413,13 +413,6 @@ parse_dribble <- function(gdrive_dribble, l_path) {
   if( nrow(gdrive_item) > 1 ){
     # If more than one files are matched, big problem!
     stop(paste0("More than one file in the specified Gdrive folder has the name: ", crayon::bold(l_path$name), " ! Need to delete one!"))
-  } else if(nrow(gdrive_item) == 0) {
-    stop(
-      paste0(
-        "No file '", crayon::bold(l_path$name), "' was found in Gdrive folder", crayon::bold(gdrive_dribble$path), ". Check spelling!\nThe following files were found:\n",
-        paste0(gdrive_folder_items$name, collapse = "\n")
-      )
-    )
   } else if ( nrow(gdrive_item) == 1 ) {
     # If the file already exists, check how many versions (revisions) exist and get info for each
     revision_lst <- googledrive::do_request(
