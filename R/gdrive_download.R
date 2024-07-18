@@ -29,20 +29,20 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
   l_path <- parse_local_path(local_path)
   # Parse the Gdrive path, using l_path to determine what to search for in the Gdrive.
   g_path <- parse_dribble(gdrive_dribble, l_path)
-  
+
   if(nrow(g_path$gdrive_item) == 0) {
     stop(paste0(
-      "No file '", crayon::bold(l_path$name), "' was found in Gdrive folder", crayon::bold(gdrive_dribble$path), 
-      ". Check spelling!
+      "No file '", crayon::bold(l_path$name), "' was found in Gdrive folder", crayon::bold(gdrive_dribble$path),
+      ". Check spelling!"
     ))
-  } 
-  
+  }
+
   # Can the directory in local_path be found?
   if( nchar(l_path$directory) > 0 ) {
     if( !file_test(op = "-d",  l_path$directory) ) {
       stop(paste0("Local path, ", crayon::bold(l_path$directory), ", not found."))}
   }
-  
+
   if( is.null(ver) ){
     # *Downloading the most recent version*
     if( l_path$local_exists ){
