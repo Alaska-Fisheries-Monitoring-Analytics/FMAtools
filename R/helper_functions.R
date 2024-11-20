@@ -503,32 +503,36 @@ compare_local_and_gdrive <- function(l_path, g_path){
     if( all(gdrive_raw$content == local_raw) ) {
       identical <- T
       local_status <- "up to date with"
+    } else {
+      identical <- F
+      local_status <- ifelse(mtime_match > 0, "behind", "ahead of")
     }
   } else {
     # *If the files aren't identical, declare whether the local or the gdrive is ahead*
     identical <- F
     local_status <- ifelse(mtime_match > 0, "behind", "ahead of")
     gdrive_raw <- NULL
-
-    if( local_status == "behind" ){
-      # *If the local is behind, check to see if the local_mtime matches any prior gdrive versions*
-      local_match_ver <- (sapply(g_path$revision_lst, "[[", "modifiedTime") == trunc(local_info$mtime))
-      # If there is a match, print the version
-      if( any(local_match_ver) ){
-        cat(paste0(
-          "Local copy of ", crayon::bold(l_path$name), " appears to be on ",
-          crayon::yellow(paste0("[ver", which(local_match_ver), "]")),
-          " whereas the Gdrive is on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ".\n"
-        ))
-      }
-    }
-
-    # Print the modified dates of the local and gdrive versions
-    cat(paste0(
-      "Modified datetimes of ", crayon::bold(l_path$name), ":\n- Local:  ", round(local_info$mtime),
-      "\n- Gdrive: ", gdrive_head$modifiedTime, "\n"
-    ))
   }
+
+  if( local_status == "behind" ){
+    # *If the local is behind, check to see if the local_mtime matches any prior gdrive versions*
+    local_match_ver <- (sapply(g_path$revision_lst, "[[", "modifiedTime") == trunc(local_info$mtime))
+    # If there is a match, print the version
+    if( any(local_match_ver) ){
+      cat(paste0(
+        "Local copy of ", crayon::bold(l_path$name), " appears to be on ",
+        crayon::yellow(paste0("[ver", which(local_match_ver), "]")),
+        " whereas the Gdrive is on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ".\n"
+      ))
+    }
+  }
+
+  # Print the modified dates of the local and gdrive versions
+  cat(paste0(
+    "Modified datetimes of ", crayon::bold(l_path$name), ":\n- Local:  ", round(local_info$mtime),
+    "\n- Gdrive: ", gdrive_head$modifiedTime, "\n"
+  ))
+
 
   # Outputs
   list(
