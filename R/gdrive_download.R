@@ -92,6 +92,8 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
   } else {
     # *Downloading a prior version*
 
+    # First, convert numeric ver to integer class
+    ver <- as.integer(ver)
     # check to see if the file already exists
     ver_path <- paste0(
       l_path$directory, l_path$name_no_ext, "_v", formatC(ver, width = 3, digits = 0, flag = "0" ), l_path$extension
