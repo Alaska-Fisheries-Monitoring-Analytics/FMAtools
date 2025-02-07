@@ -116,7 +116,7 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
         # If the version is found, download it as raw bytes
         revision_raw <- gargle::request_make(gargle::request_build(
           method = "GET",
-          path = "drive/v3/files/{fileId}",
+          path = "drive/v3/files/{fileId}/revisions/{revisionId}",
           params = list(
             fileId = g_path$gdrive_item$id, revisionId = revision_i$id, supportsAllDrives = TRUE, alt = "media"
           ),
