@@ -302,7 +302,7 @@ uni <- function(.x) {
 gdrive_token <- function() {
   # To deauthorize in testing: googledrive::drive_deauth()
 
-  if(is.null(googledrive::drive_token())) googledrive::drive_auth(email = "*@noaa.gov")
+  if(isFalse(googledrive::drive_has_token())) googledrive::drive_auth(email = "*@noaa.gov")
 
 }
 
