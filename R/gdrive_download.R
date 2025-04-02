@@ -25,9 +25,6 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
   # Make sure ver, if specified, is numeric
   if( !is.null(ver) ) if ( !is.numeric(ver) ) stop("Version number 'ver' needs to be numeric!")
 
-  # Ensure googledrive token is active
-  gdrive_token()
-
   # Parse the local path to determine whether the file exists locally and what to search for on the Gdrive.
   l_path <- parse_local_path(local_path)
   # Parse the Gdrive path, using l_path to determine what to search for in the Gdrive.

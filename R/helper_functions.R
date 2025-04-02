@@ -293,20 +293,7 @@ uni <- function(.x) {
   return(out)
 }
 
-#' For gdrive_ functions: check for googledrive token and if not active, use NOAA e-mail
-#'
-#' \code{drive_token()} is used by all \code{gdrive_} functions to ensure the user has authenticated their token to
-#' communicate with the googledrive
-#'
-#' @return Automatically uses the user's stored NOAA e-mail to connect if no token is already established
-gdrive_token <- function() {
-  # To deauthorize in testing: googledrive::drive_deauth()
-
-  if(is.null(googledrive::drive_token())) googledrive::drive_auth(email = "*@noaa.gov")
-
-}
-
-#' For gdrive_ functions: check for Subfolders Within Folders
+#' Check for Subfolders Within Folders
 #'
 #' \code{dir_search()} is used recursively by \code{gdrive_ls()} to identify the folder structure of the Shared Google Drive
 #'
@@ -362,7 +349,7 @@ dir_search <- function(dribble) {
 }
 
 
-#' For gdrive_ functions: split a local path into the directory, filename, and extension
+#' Split a local path into the directory, filename, and extension
 #'
 #' A background helper function for `gdrive_download()` and `gdrive_upload()` to identify the local files to interact with.
 #'
@@ -399,7 +386,7 @@ parse_local_path <- function(local_path){
 }
 
 
-#' For gdrive_ functions: find a File in the Gdrive Folder
+#' Find a File in the Gdrive Folder
 #'
 #' A background helper function for `gdrive_download()` and `gdrive_upload()` to identify the Gdrive files to interact with.
 #'
@@ -472,7 +459,7 @@ parse_dribble <- function(gdrive_dribble, l_path) {
 
 
 
-#' For gdrive_ functions: compare the Local File and the Current Version of the Gdrive File
+#' Compare the Local File and the Current Version of the Gdrive File
 #'
 #' A background helper function for `gdrive_upload()` and `gdrive_download()` that helps determine whether those
 #' operations are necessary (e.g., skips these actions if the files are already identical).
