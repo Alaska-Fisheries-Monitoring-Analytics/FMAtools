@@ -293,7 +293,19 @@ uni <- function(.x) {
   return(out)
 }
 
-#' Check for Subfolders Within Folders
+#' For gdrive_ functions: check for googledrive token and if not active, use NOAA e-mail
+#'
+#' \code{drive_token()} is used by all \code{gdrive_} functions to ensure the user has authenticated their token to
+#' communicate with the googledrive
+#'
+#' @return Automatically uses the user's stored NOAA e-mail to connect if no token is already established
+gdrive_token <- function() {
+  # To deauthorize in testing: googledrive::drive_deauth()
+
+  if(isFALSE(googledrive::drive_has_token())) googledrive::drive_auth(email = "*@noaa.gov")
+
+}
+
 #'
 #' \code{dir_search()} is used recursively by \code{gdrive_ls()} to identify the folder structure of the Shared Google Drive
 #'

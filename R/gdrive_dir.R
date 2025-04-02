@@ -27,6 +27,9 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
 
   if( !is.character(shared_id) | length(shared_id) != 1) stop("'id' needs to be a length = 1 character string.")
 
+  # Ensure googledrive token is active
+  gdrive_token()
+
   # Recall Hard coded dids from an alias
   if( shared_id == "Analytics") {
     id <- "0AJcHJWlPgKIgUk9PVA"

@@ -18,6 +18,9 @@
 #' }
 gdrive_upload <- function(local_path, gdrive_dribble) {
 
+  # Ensure googledrive token is active
+  gdrive_token()
+
   # Parse the local path to get the directory, file name, extension, and whether a version flag exists
   l_path <- parse_local_path(local_path)
   # If the local path doesn't exist, abort!
