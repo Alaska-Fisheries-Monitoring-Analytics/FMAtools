@@ -12,6 +12,9 @@
 #'    gdrive_set_dribble("Google Drive Test/")
 #' )
 gdrive_versions <- function(gdrive_file, gdrive_dribble){
+  # Ensure googledrive token is active
+  gdrive_token()
+
   # Make the dribble of the gdrive_file
   gdrive_item <- googledrive::with_drive_quiet(
     googledrive::drive_get(
