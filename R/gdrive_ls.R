@@ -19,12 +19,12 @@
 #' @export
 gdrive_ls <- function(gdrive_dribble){
 
-  # Ensure googledrive token is active
-  gdrive_token()
-
   if( !googledrive::is_dribble(gdrive_dribble) | nrow(gdrive_dribble) != 1) {
     stop("'gdrive_dibble' needs to be a nrow = 1 dribble.")
   }
+
+  # Ensure googledrive token is active
+  gdrive_token()
 
   # Get all items in gdrive_dibble
   dribble_items <- googledrive::drive_ls(gdrive_dribble)

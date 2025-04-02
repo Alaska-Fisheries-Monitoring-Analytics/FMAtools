@@ -30,7 +30,7 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
   # Ensure googledrive token is active
   gdrive_token()
 
-  # Recall Hard coded ids from an alias
+  # Recall Hard coded dids from an alias
   if( shared_id == "Analytics") {
     id <- "0AJcHJWlPgKIgUk9PVA"
   } else stop("")
