@@ -293,6 +293,8 @@ uni <- function(.x) {
   return(out)
 }
 
+# Shared Google Drive ----
+
 #' For gdrive_ functions: check for googledrive token and if not active, use NOAA e-mail
 #'
 #' \code{drive_token()} is used by all \code{gdrive_} functions to ensure the user has authenticated their token to
@@ -306,7 +308,32 @@ gdrive_token <- function() {
 
 }
 
+#' \code{shared_dribe_ls()} is used in place of \code{googledrive::drive_ls()} which does not work for users with only
+#' shared access to a subfolder of the shared drive and not root access.
 #'
+#' @param gdrive_dribble a \code{dribble} containing the contents of a Shared Gdrive folder
+#'
+#' @return Returns a dribble of all items within the specified folder.
+shared_drive_ls <- function(gdrive_dribble) {
+
+  # Make a custom API request
+  query <- glue("'{gdrive_dribble$id}' in parents and trashed = false")
+  req <- googledrive::request_generate(
+    endpoint = "drive.files.list",
+    params = list(
+      q = query,
+      supportsAllDrives = TRUE,
+      includeItemsFromAllDrives = TRUE,
+      fields = "files(id, name, kind, mimeType, createdTime, size)",
+      corpora = "drive",
+      orderBy = "recency desc",
+      driveId = gdrive_dribble$shared_drive_id
+    )
+  )
+  # Make the request and convert to dribble class
+  googledrive::do_paginated_request(req) %>% purrr::map("files") %>% purrr::flatten() %>% googledrive::as_dribble()
+}
+
 #' \code{dir_search()} is used recursively by \code{gdrive_ls()} to identify the folder structure of the Shared Google Drive
 #'
 #' @param dribble a \code{dribble} containing the contents of a Shared Gdrive folder
@@ -323,7 +350,7 @@ dir_search <- function(dribble) {
 
   for( i in 1:length(dribble_lst) ) {
 
-    drive_items <- googledrive::drive_ls(dribble[i, ])
+    drive_items <- shared_drive_ls(dribble[i, ])
 
     if( nrow(drive_items) == 0 ) {
       dribble_lst[[i]] <- list(
@@ -418,7 +445,7 @@ parse_dribble <- function(gdrive_dribble, l_path) {
 
   # use drive_get to see if the file already exists on the gdrive, and store it as a dribble. We don't want to use
   # case-sensitivity with these checks. Could also use drive_get using path (ignores case sensitivity), but is slower.
-  gdrive_folder_items <- googledrive::drive_ls(gdrive_dribble)
+  gdrive_folder_items <- shared_drive_ls(gdrive_dribble)
   gdrive_item <- gdrive_folder_items[which(tolower(gdrive_folder_items$name) == tolower(l_path$name)), ]
 
   # If nrow(gdrive_item) > 0, then check to see if the file has a version history

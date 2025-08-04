@@ -4,12 +4,20 @@
 \alias{gdrive_set_dribble}
 \title{Designate a Gdrive Folder as a Target for Uploads and Downloads}
 \usage{
-gdrive_set_dribble(gdrive_path, shared_id = "Analytics")
+gdrive_set_dribble(
+  gdrive_path = NULL,
+  shared_id = "Analytics",
+  folder_id = NULL
+)
 }
 \arguments{
 \item{gdrive_path}{a character string of the folder path, with each folder name followed by \code{/}}
 
-\item{shared_id}{an alias for the Shared Drive to connect to. The default, \code{Analytics}, is so far the only alias that is recognized.}
+\item{shared_id}{a character string of the shared drive's ID or an alias for the Shared Drive to connect to. The
+default alias, \code{Analytics}, is so far the only alias that is currently recognized.}
+
+\item{folder_id}{a character string of the folder's ID, which must be used instead of \code{gdrive_path} for
+collaborators with only shared access to a shared drive's subfolder and not root access to the shared drive.}
 }
 \value{
 Returns a dribble class object

@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{dir_search}
 \alias{dir_search}
-\title{Check for Subfolders Within Folders}
+\title{\code{dir_search()} is used recursively by \code{gdrive_ls()} to identify the folder structure of the Shared Google Drive}
 \usage{
 dir_search(dribble)
 }
