@@ -27,7 +27,9 @@ gdrive_ls <- function(gdrive_dribble){
   gdrive_token()
 
   # Get all items in gdrive_dibble
-  dribble_items <- googledrive::drive_ls(gdrive_dribble)
+  # dribble_items <- googledrive::drive_ls(gdrive_dribble)  # doesn't work for collaborators with shared access
+  dribble_items <- shared_drive_ls(gdrive_dribble)
+
   # Subset to only files
   dribble_items <- dribble_items[
     sapply(dribble_items$drive_resource, "[[", "mimeType") != "application/vnd.google-apps.folder",

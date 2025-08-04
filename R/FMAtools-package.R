@@ -10,5 +10,6 @@
 #' @importFrom readxl excel_sheets
 #' @importFrom readxl read_excel
 #' @importFrom utils file_test
+#' @importFrom glue glue
 ## usethis namespace: end
 NULL
