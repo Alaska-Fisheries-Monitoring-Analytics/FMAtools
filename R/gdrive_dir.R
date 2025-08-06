@@ -90,5 +90,5 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
   out$nchar <- nchar(out$abbr_name)
   out$ws <- max(out$nchar) - out$nchar
   out$Directory <- apply(out, 1, function(x) paste0(x["abbr_name"], paste(rep(" ", times = x["ws"]), collapse = "")))
-  out[, c("Directory", "files", "gdrive_path")]
+  print(out[, c("Directory", "files", "gdrive_path")], n = Inf)
 }
