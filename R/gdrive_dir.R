@@ -33,9 +33,15 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
   # Recall Hard coded dids from an alias
   if( shared_id == "Analytics") {
     id <- "0AJcHJWlPgKIgUk9PVA"
-  } else stop("")
+  } else id <- shared_id
 
-  gdrive_head <- googledrive::with_drive_quiet(googledrive::shared_drive_get(id = id))
+  tryCatch(
+    gdrive_head <-  googledrive::with_drive_quiet(googledrive::shared_drive_get(id = id)),
+    error = function(e)  {
+      stop(paste("Either your shared_id was incorrect or you do not have root access to the shared drive."))
+    }
+  )
+
   # If 'folder' is specified, only dig through file structure of that folder.
   if( !is.null(folder) ){
 
@@ -48,13 +54,16 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
   }
 
   parent <- gdrive_dribble
+  parent$shared_drive_id <- id
   parent_search <- dir_search(parent)
+  parent_search$shared_drive_id <- id
 
   while( nrow(parent_search$child) > 0 ){
     new_parent <- parent_search$child
+    new_parent$shared_drive_id <- id
     new_parent_search <- dir_search(new_parent)
     parent_search <- list(
-      parent = rbind(parent_search$parent[, c("name", "id", "drive_resource", "files")], new_parent_search$parent),
+      parent = rbind(parent_search$parent, new_parent_search$parent),
       child = new_parent_search$child,
       fill = T
     )
@@ -81,5 +90,5 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
   out$nchar <- nchar(out$abbr_name)
   out$ws <- max(out$nchar) - out$nchar
   out$Directory <- apply(out, 1, function(x) paste0(x["abbr_name"], paste(rep(" ", times = x["ws"]), collapse = "")))
-  out[, c("Directory", "files", "gdrive_path")]
+  print(out[, c("Directory", "files", "gdrive_path")], n = Inf)
 }
