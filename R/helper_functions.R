@@ -331,7 +331,11 @@ shared_drive_ls <- function(gdrive_dribble) {
     )
   )
   # Make the request and convert to dribble class
-  googledrive::do_paginated_request(req) %>% purrr::map("files") %>% purrr::flatten() %>% googledrive::as_dribble()
+  googledrive::with_drive_quiet(
+    googledrive::do_paginated_request(req) %>%
+      purrr::map("files") %>% purrr::flatten() %>%
+      googledrive::as_dribble()
+  )
 }
 
 #' \code{dir_search()} is used recursively by \code{gdrive_ls()} to identify the folder structure of the Shared Google Drive
@@ -522,7 +526,7 @@ compare_local_and_gdrive <- function(l_path, g_path){
 
   # Compare files
   if( size_match & mtime_match == 0 ){
-    # *If modified times and byte lengths are the same, treat them as identical*
+    # If modified times and byte lengths are the same, treat them as identical
     identical <- T
     local_status <- "up to date with"
     gdrive_raw <- NULL
@@ -547,14 +551,20 @@ compare_local_and_gdrive <- function(l_path, g_path){
       local_status <- ifelse(mtime_match > 0, "behind", "ahead of")
     }
   } else {
-    # *If the files aren't identical, declare whether the local or the gdrive is ahead*
+    # If the files aren't identical, declare whether the local or the gdrive is ahead
     identical <- F
     local_status <- ifelse(mtime_match > 0, "behind", "ahead of")
     gdrive_raw <- NULL
+
+    # Print the modified dates of the local and gdrive versions
+    cat(paste0(
+      "Modified datetimes of ", crayon::bold(l_path$name), ":\n- Local:  ", round(local_info$mtime),
+      "\n- Gdrive: ", gdrive_head$modifiedTime, "\n"
+    ))
   }
 
   if( local_status == "behind" ){
-    # *If the local is behind, check to see if the local_mtime matches any prior gdrive versions*
+    # If the local is behind, check to see if the local_mtime matches any prior gdrive versions
     local_match_ver <- (sapply(g_path$revision_lst, "[[", "modifiedTime") == trunc(local_info$mtime))
     # If there is a match, print the version
     if( any(local_match_ver) ){
@@ -566,13 +576,6 @@ compare_local_and_gdrive <- function(l_path, g_path){
     }
   }
 
-  # Print the modified dates of the local and gdrive versions
-  cat(paste0(
-    "Modified datetimes of ", crayon::bold(l_path$name), ":\n- Local:  ", round(local_info$mtime),
-    "\n- Gdrive: ", gdrive_head$modifiedTime, "\n"
-  ))
-
-
   # Outputs
   list(
     identical = identical,
@@ -581,3 +584,4 @@ compare_local_and_gdrive <- function(l_path, g_path){
     gdrive_bytes = gdrive_raw$content
   )
 }
+
