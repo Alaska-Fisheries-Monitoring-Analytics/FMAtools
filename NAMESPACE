@@ -3,6 +3,7 @@
 export(ak_db_connect)
 export(chk_missing_nms)
 export(colord)
+export(db_query)
 export(dots2char)
 export(find_dated_file)
 export(fix_utf8)

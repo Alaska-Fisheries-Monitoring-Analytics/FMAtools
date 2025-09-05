@@ -32,7 +32,7 @@ db_query <- function(query, dsn = "channel_afsc") {
   if(conn_exists) {
     # Run a simple query to test if the connection is active. If it throws an error, the connection is inactive.
     conn_active <- tryCatch({
-      dbGetQuery(get(dsn), paste0("SELECT sysdate from dual"))
+      DBI::dbGetQuery(get(dsn), paste0("SELECT sysdate from dual"))
       TRUE
       }, error = function(e) return(F)
     )
