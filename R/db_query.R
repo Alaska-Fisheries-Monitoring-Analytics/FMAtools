@@ -1,6 +1,6 @@
 #' Query a database
 #'
-#' Run a query without checking your connection
+#' Run a database query with an automatic check for your connection.
 #'
 #' @param query the character string
 #' @param dsn the dsn as specified in your .Renviron file
@@ -9,12 +9,12 @@
 #' Runs a database query. This function will automatically see if you have an open connect to the database, and if not,
 #' will re-establish the connection.
 #'
-#' Uses the credential stored in the .Renviron file. By default, this function assumes you're connecting to the NORPAC
-#' database but the `dsn` argument can be used to specify another alias.
+#' Uses the credential stored in your local `.Renviron file`. By default, this function assumes you're connecting to the
+#' NORPAC database but the `dsn` argument can be used to specify another alias.
 #'
 #' As a reminder, you can edit your `.Renviron` file via `usethis::edit_r_environ()`.
 #'
-#' @return Returns the output of from you query, typically a table.
+#' @return Returns the output of from you query, typically a table. Also assigns your `dsn` to the global environment.
 #'
 #' @seealso `usethis::edit_r_environ()`
 
@@ -38,7 +38,7 @@ db_query <- function(query, dsn = "channel_afsc") {
     )
   } else conn_active <- F
 
-  # If the connection does not exists or exists but is inactive re-connect.
+  # If the connection does not exists or exists but is inactive, re-connect.
   if(!conn_exists | !conn_active) {
     cat("Re-establishing connection")
     # Assign the dsn to the global environment, drawing the connection from the .Renviron file

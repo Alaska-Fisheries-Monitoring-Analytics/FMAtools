@@ -12,17 +12,17 @@ db_query(query, dsn = "channel_afsc")
 \item{dsn}{the dsn as specified in your .Renviron file}
 }
 \value{
-Returns the output of from you query, typically a table.
+Returns the output of from you query, typically a table. Also assigns your \code{dsn} to the global environment.
 }
 \description{
-Run a query without checking your connection
+Run a database query with an automatic check for your connection.
 }
 \details{
 Runs a database query. This function will automatically see if you have an open connect to the database, and if not,
 will re-establish the connection.
 
-Uses the credential stored in the .Renviron file. By default, this function assumes you're connecting to the NORPAC
-database but the \code{dsn} argument can be used to specify another alias.
+Uses the credential stored in your local \verb{.Renviron file}. By default, this function assumes you're connecting to the
+NORPAC database but the \code{dsn} argument can be used to specify another alias.
 
 As a reminder, you can edit your \code{.Renviron} file via \code{usethis::edit_r_environ()}.
 }

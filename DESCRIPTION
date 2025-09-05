@@ -34,4 +34,5 @@ Imports:
     purrr,
     crayon,
     readxl,
-    dbplyr
+    dbplyr,
+    DBI
