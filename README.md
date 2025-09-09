@@ -32,3 +32,7 @@ to do this, which must be done only once. **Make sure to check the box granting 
 # Authorize the googledrive:: package to access your NOAA Google Drive
 googledrive::drive_auth()
 ```
+
+## Querying databases using `db_query()`
+
+Use the `db_query()` function as a shortcut to both perform a query and connect to a database. The `dsn` arugment of the function, which is `channel_afsc` by default, is used to reference your local `.Renviron` file where you can store your database connection method. You can edit your `.Renviron` file using `usethis::edit_r_environ()`, ensuring that your `dsn` is defined with your desired database connection method.
