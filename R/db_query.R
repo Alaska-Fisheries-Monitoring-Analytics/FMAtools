@@ -40,7 +40,7 @@ db_query <- function(query, dsn = "channel_afsc") {
 
   # If the connection does not exists or exists but is inactive, re-connect.
   if(!conn_exists | !conn_active) {
-    cat(paste0("Re-establishing connection to", dsn, "\n"))
+    cat(paste0("Re-establishing connection to ", dsn, "\n"))
     # Assign the dsn to the global environment, drawing the connection from the .Renviron file
     assign(as.character(dsn), eval(parse(text = Sys.getenv(dsn))), envir =  .GlobalEnv)
   }
