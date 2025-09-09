@@ -14,11 +14,13 @@ Analyst Team.
 
 ## Installation
 
-You might need to set up a githubPAT:
-
+Install or update your package by running:
 ``` r
-# install.packages("devtools")
 devtools::install_github("Alaska-Fisheries-Monitoring-Analytics/FMAtools")
+```
+If you have not yet, you'll need to set up a githubPAT. [Set up a classic GitHub token](https://github.com/settings/tokens) with a 90-day expiration (or regenerate an exisiting one), copy the token to your clipboard, and then add it locally in R by running:
+``` r
+gitcreds::gitcreds_set()
 ```
 
 ## `gdrive_` functions
@@ -35,12 +37,22 @@ googledrive::drive_auth()
 
 ## Querying databases using `db_query()`
 
-Use the `db_query()` function as a shortcut to both perform a query and connect to a database. The `dsn` arugment of the function, which is `channel_afsc` by default, is used to reference your local `.Renviron` file where you can store your database connection method. 
+Use the `db_query()` function as a shortcut to both perform a query and connect to a database. The `dsn` arugment of the function, which is `channel_afsc` by default, is used to reference your local `.Renviron` file where you can store your database connection method. Other `dsn` you may want to assign are `channel_cas` and `channel_akfin`. Please use these aliases to be consistent with the rest of the team.
 
-You can edit your `.Renviron` file using `usethis::edit_r_environ()`, ensuring that your `dsn` is defined with your desired database connection method. For example, your .Renviron script may look like:
+You can edit your `.Renviron` file using:
 
+``` r
+`usethis::edit_r_environ()
+```
+ensuring that your `dsn` is defined with your desired database connection method. For example, your .Renviron script may look like:
 ``` r
 AFSCid = <USERNAME>
 AFSCpw = <PASSWORD>
 channel_afsc = "library(odbc); dbConnect(drv = odbc::odbc(), dsn = 'AFSC', UID = Sys.getenv('AFSCid'), PWD = Sys.getenv('AFSCpw'))"
 ```
+You can test your connection with a simple query. 
+``` r
+FMAtools::db_query(paste0("select sysdate from dual"), dsn = "channel_afsc")
+```
+
+
