@@ -35,4 +35,12 @@ googledrive::drive_auth()
 
 ## Querying databases using `db_query()`
 
-Use the `db_query()` function as a shortcut to both perform a query and connect to a database. The `dsn` arugment of the function, which is `channel_afsc` by default, is used to reference your local `.Renviron` file where you can store your database connection method. You can edit your `.Renviron` file using `usethis::edit_r_environ()`, ensuring that your `dsn` is defined with your desired database connection method.
+Use the `db_query()` function as a shortcut to both perform a query and connect to a database. The `dsn` arugment of the function, which is `channel_afsc` by default, is used to reference your local `.Renviron` file where you can store your database connection method. 
+
+You can edit your `.Renviron` file using `usethis::edit_r_environ()`, ensuring that your `dsn` is defined with your desired database connection method. For example, your .Renviron script may look like:
+
+``` r
+AFSCid = <USERNAME>
+AFSCpw = <PASSWORD>
+channel_afsc = "library(odbc); dbConnect(drv = odbc::odbc(), dsn = 'AFSC', UID = Sys.getenv('AFSCid'), PWD = Sys.getenv('AFSCpw'))"
+```
