@@ -42,7 +42,7 @@ Use the `db_query()` function as a shortcut to both perform a query and connect 
 You can edit your `.Renviron` file using:
 
 ``` r
-`usethis::edit_r_environ()
+usethis::edit_r_environ()
 ```
 ensuring that your `dsn` is defined with your desired database connection method. For example, your .Renviron script may look like:
 ``` r
