@@ -69,7 +69,7 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
     if( compare_res$identical ) {
       # *If the files are identical, don't bother updating!*
       return(cat(paste0(
-        "Local is ", crayon::bold(compare_res$local_status), " the Gdrive. Skipping upload.\n"
+        "Local is ", crayon::bold(compare_res$local_status), " the Gdrive on ", crayon::yellow(paste0("[ver ", g_path$current_ver, "]")), ". Skipping upload.\n"
       )))
     } else {
 
