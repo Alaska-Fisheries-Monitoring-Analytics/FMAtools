@@ -91,6 +91,8 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
         }
       }
 
+      # Local must be ahead of the gdrive.
+      cat(paste0("Local is ", crayon::bold("ahead of")), paste0("the gdrive: [ver", g_path$current_ver, "]\n"))
       # Prepare to update
       cat(paste0(
         crayon::bold(l_path$name), " in ", crayon::yellow(gdrive_dribble$path), " will be updated to ",
