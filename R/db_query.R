@@ -2,7 +2,7 @@
 #'
 #' Run a database query with an automatic check for your connection.
 #'
-#' @param query the character string
+#' @param query optional, the character string for a query
 #' @param dsn the dsn as specified in your .Renviron file
 #'
 #' @details
@@ -32,7 +32,7 @@ db_query <- function(query, dsn = "channel_afsc") {
   if(conn_exists) {
     # Run a simple query to test if the connection is active. If it throws an error, the connection is inactive.
     conn_active <- tryCatch({
-      DBI::dbGetQuery(get(dsn), paste0("SELECT sysdate from dual"))
+      DBI::dbGetQuery(get(dsn), "SELECT sysdate from dual")
       TRUE
       }, error = function(e) return(F)
     )
@@ -46,6 +46,6 @@ db_query <- function(query, dsn = "channel_afsc") {
   }
 
   # Run the query
-  DBI::dbGetQuery(conn = get(dsn), statement = query)
+  if(!missing(query))   DBI::dbGetQuery(conn = get(dsn), statement = query)
 
 }
