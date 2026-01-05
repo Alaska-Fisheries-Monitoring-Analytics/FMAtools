@@ -36,7 +36,9 @@ gdrive_set_dribble <- function(gdrive_path = NULL, shared_id = "Analytics", fold
   # Get the dribble object from the gdrive_path. It will contain rows for all enclosed folders and files.
   if(!is.null(folder_id)) {
     # If using the folder_id, derive the shared drive ID from the folder's dribble
-    dribble_out <- googledrive::drive_get(id = googledrive::as_id(folder_id))
+    dribble_out <- googledrive::with_drive_quiet(
+      googledrive::drive_get(id = googledrive::as_id(folder_id))
+    )
     id <- dribble_out$drive_resource[[1]]$driveId
   } else {
     # If you want to specify the project folder path, you also need the shared folder's id and access to it!
@@ -44,7 +46,9 @@ gdrive_set_dribble <- function(gdrive_path = NULL, shared_id = "Analytics", fold
     if( shared_id == "Analytics") {
       id <- "0AJcHJWlPgKIgUk9PVA"
     } else {id <- shared_id}
-    dribble_out <- googledrive::drive_get(path = gdrive_path, shared_drive = googledrive::as_id(id))
+    dribble_out <- googledrive::with_drive_quiet(
+      googledrive::drive_get(path = gdrive_path, shared_drive = googledrive::as_id(id))
+    )
   }
 
   # Only allow folders to be set as targets (exclude files)
