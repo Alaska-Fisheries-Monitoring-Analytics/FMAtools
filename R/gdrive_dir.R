@@ -6,7 +6,7 @@
 #' argument as it will speed up your search.
 #'
 #' @param shared_id An alias of a Shared Google Drive. By default, the drive for FMA Analytics.
-#' @param folder A character file path of folders, i.e., "Projects", that will narrow down your search.
+#' @param folder A dribble or a character file path of folders, i.e., "Projects", that will narrow down your search.
 #'
 #' @details
 #' Use this function to retrieve the file paths of every folder in the Shared Google Drive.
@@ -44,10 +44,15 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
 
   # If 'folder' is specified, only dig through file structure of that folder.
   if( !is.null(folder) ){
-
+    # If the folder is a dribble, use it
+    if(googledrive::is_dribble(folder)) {
+      gdrive_dribble <- folder
+      folder <- gdrive_dribble$path
+    } else {
+      gdrive_dribble <- googledrive::with_drive_quiet(googledrive::drive_get(path = folder, shared_drive = gdrive_head))
+    }
     # Remove any trailing slashes
     folder <- sub("[.]*/$", "", folder)
-    gdrive_dribble <- googledrive::with_drive_quiet(googledrive::drive_get(path = folder, shared_drive = gdrive_head))
   } else {
     # Get the dribble of the shared drive
     gdrive_dribble <- gdrive_head
@@ -55,6 +60,7 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
 
   parent <- gdrive_dribble
   parent$shared_drive_id <- id
+  parent$path <- NULL
   parent_search <- dir_search(parent)
   parent_search$shared_drive_id <- id
 
@@ -70,11 +76,7 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
   }
 
   # Omit the shared folder from the output
-  if( is.null(folder) ){
-    folders_df <- parent_search$parent[-1, ]
-  } else {
-    folders_df <- parent_search$parent
-  }
+  folders_df <- parent_search$parent[-1, ]
 
   # Omit the shared folder from name, and add a "/" to the path names to specify these are folders and not files
   folders_df$gdrive_path <- sub(paste0(gdrive_dribble$name, "/"), "", paste0(folders_df$name, "/"))
@@ -84,7 +86,7 @@ gdrive_dir <- function(shared_id = c("Analytics"), folder = NULL) {
 
   # Format the output
   out <- folders_df[, c("gdrive_path", "files")]
-  if( !is.null(folder) ) out$gdrive_path <- paste0(folder, "/", out$gdrive_path)
+  out$gdrive_path <- paste0(folder, "/", out$gdrive_path)
   out <- out[order(out$gdrive_path), ]
   out$abbr_name <- gsub("([^/]+)(?=/.+)", "..", out$gdrive_path, perl = T)
   out$nchar <- nchar(out$abbr_name)
