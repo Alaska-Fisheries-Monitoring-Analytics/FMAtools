@@ -70,7 +70,7 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
           title = "Notice!",
           message = paste0(
             "Overwrite and update your local version of ", l_path$name, " to ", "[ver",
-            g_path$revision_lst[[1]]$version, "]", "? (Y/N)"
+            g_path$current_ver, "]", "? (Y/N)"
           )
         )
         if( is.null(download_response) ) download_response <- "N"

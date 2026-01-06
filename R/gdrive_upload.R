@@ -55,7 +55,7 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
         modifiedTime = new_mtime, keepRevisionForever = TRUE
       )
     } else if ( upload_response == "N" ){
-      return("Aborting upload.")
+      return(cat("Aborting upload."))
     } else {
       stop("Aborting upload. Response was neither 'Y' or 'N'.")
     }
@@ -70,7 +70,7 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
       # *If the files are identical, don't bother updating!*
       return(cat(paste0(
         "Local copy of ", crayon::bold(l_path$name), " is ", crayon::green(compare_res$local_status), " the Gdrive on ",
-        crayon::yellow(paste0("[ver ", g_path$current_ver, "]")), ". Skipping upload.\n"
+        crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ". Skipping upload.\n"
       )))
     } else {
 
@@ -86,7 +86,7 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
         if( is.null(local_behind_response) ) local_behind_response <- "N"
         local_behind_response <- toupper(local_behind_response)
         if( local_behind_response == "N" ){
-          return("Aborting upload.")
+          return(cat("Aborting upload."))
         } else if( local_behind_response != "Y" ){
           stop("Aborting upload. Response was neither 'Y' or 'N'.")
         }
