@@ -57,7 +57,7 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
     } else if ( upload_response == "N" ){
       return("Aborting upload.")
     } else {
-      stop("Aborting upload. Response was not either 'Y' or 'N'.")
+      stop("Aborting upload. Response was neither 'Y' or 'N'.")
     }
   } else {
     # *Update File - If the file already exists on the gdrive, and the local is ahead, update the file*
@@ -69,25 +69,26 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
     if( compare_res$identical ) {
       # *If the files are identical, don't bother updating!*
       return(cat(paste0(
-        "Local is ", crayon::bold(compare_res$local_status), " the Gdrive on ", crayon::yellow(paste0("[ver ", g_path$current_ver, "]")), ". Skipping upload.\n"
+        "Local copy of ", crayon::bold(l_path$name), " is ", crayon::green(compare_res$local_status), " the Gdrive on ",
+        crayon::yellow(paste0("[ver ", g_path$current_ver, "]")), ". Skipping upload.\n"
       )))
     } else {
 
       if( compare_res$local_status == "behind" ){
         # * If local is behind, prompt the user to check before proceeding*
-        local_behind_response <- toupper(rstudioapi::showPrompt(
+        local_behind_response <- rstudioapi::showPrompt(
           title = "Notice!",
           message = paste0(
-            "Local copy of ", l_path$name,
-            " appears to be behind the Gdrive. Are you sure you want to continue with the upload? (Y/N)"
+            "!!! WARNING !!! Local copy of ", l_path$name,
+            " appears to be BEHIND the Gdrive. Are you sure you want to continue with the upload? (Y/N)"
           )
-        ))
-        if( is.null(local_behind_response) ){
-          return(cat("Aborting upload."))
-        } else if( local_behind_response == "N" ){
+        )
+        if( is.null(local_behind_response) ) local_behind_response <- "N"
+        local_behind_response <- toupper(local_behind_response)
+        if( local_behind_response == "N" ){
           return("Aborting upload.")
         } else if( local_behind_response != "Y" ){
-          return("Response was not 'N' or 'Y'. Aborting upload.")
+          stop("Aborting upload. Response was neither 'Y' or 'N'.")
         }
       }
 

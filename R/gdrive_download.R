@@ -57,24 +57,24 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
 
         return(cat(paste0(
           "Local copy of ", crayon::bold(l_path$name), " is ", crayon::green(compare_res$local_status),
-          " the Gdrive. Skipping download.\n"
+          " the Gdrive on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ". Skipping download.\n"
         )))
       } else if( compare_res$local_status == "behind" ){
         # *If the local is behind, prompt to download and overwrite to bring the local version up to date*
         cat(paste0("Local version of ", crayon::bold(l_path$name), " is ", crayon::red(compare_res$local_status), " the Gdrive!\n"))
-        download_response <- toupper(rstudioapi::showPrompt(
+        download_response <- rstudioapi::showPrompt(
           title = "Notice!",
           message = paste0(
             "Overwrite and update your local version of ", l_path$name, " to ", "[ver",
             g_path$revision_lst[[1]]$version, "]", "? (Y/N)"
           )
-        ))
-        if( is.null(download_response) ){
-          return(cat(paste0("Aborting download of ", crayon::bold(l_path$name), ".")))
-        } else if( toupper(download_response) == "N" ) {
+        )
+        if( is.null(download_response) ) download_response <- "N"
+        download_response <- toupper(download_response)
+        if( toupper(download_response) == "N" ) {
           return(cat(paste0("Aborting download of ", crayon::bold(l_path$name), ".")))
         } else if ( toupper(download_response) != "Y") {
-          stop("You didnt enter `Y` or `N`! Aborting download.")
+          stop("Aborting upload. Response was neither 'Y' or 'N'.")
         }
       }
     } else {
