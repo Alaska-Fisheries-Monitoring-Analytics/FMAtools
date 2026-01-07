@@ -18,6 +18,7 @@ gdrive_ls(test_data_dribble)
 gdrive_set_dribble("Data/species_conversion_table.xlsx/")
 gdrive_set_dribble("Data/ak_shp")
 
+### Accessing another shared google drive ----
 # Testing accessing a shared google drive that you do not have full access to
 # (only Geoff and Craig can test this as Debra Duarte granted them access to this folder)
 gdrive_set_dribble(folder_id = "1x0UjP5tEyTCgUdMq_43PoN2ww7zFrjaA")
@@ -30,10 +31,7 @@ dummy_dat <- cars
 local_dat_filepath <- "test_data/dummy_dat.R"
 save(dummy_dat, file = local_dat_filepath)
 gdrive_upload(local_dat_filepath, test_data_dribble)
-
-#' TODO If we have a couple versions of the file saved to the Gdrive but then locally save a copy that matches an
-#' older version, gdrive_upload currently iterprets our local as being more recent. Have it check file size and
-#' print whether your local matches an older version on the gdrive, even if it was created more recently?
+#   local_path <- local_dat_filepath; gdrive_dribble <- test_data_dribble; ver = NULL
 
 # Make an edit (but save it locally somewhere else) so that the gdrive is 'ahead' of the local
 #   local_path <- "test_data/edit/dummy_dat.R"; gdrive_dribble <- test_data_dribble; ver = NULL
@@ -55,12 +53,10 @@ gdrive_download(local_dat_filepath, test_data_dribble)
 gdrive_upload(local_dat_filepath, test_data_dribble)
 gdrive_download(local_dat_filepath, test_data_dribble)
 
-## Save temporary files and load them ----
+### Save temporary files and load them ----
 # Download a gdrive file to a temporary local folder and load it. Works with older versions as well
 (load(gdrive_download(local_dat_filepath, test_data_dribble, ver = 1, temp = T)))
-(load(gdrive_download(local_dat_filepath, test_data_dribble, temp = T)))
+(load(gdrive_download("test_data/edit/dummy_dat.R", test_data_dribble, temp = T)))
 
 
 #======================================================================================================================#
-
-
