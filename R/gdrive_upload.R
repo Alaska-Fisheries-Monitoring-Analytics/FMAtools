@@ -42,22 +42,22 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
       crayon::cyan(local_path), " will be uploaded to ", crayon::yellow(gdrive_dribble$path),
       " as ", crayon::yellow("[ver1]"), ".\n"
     ))
-    upload_response <- toupper(rstudioapi::showPrompt(
+    upload_response <- rstudioapi::showPrompt(
       title = "Notice!",
-      message = "Proceed with upload? (Y/N)"
-    ))
-    if( is.null(upload_response) ) {
-      stop("Aborting upload.")
-    } else if( upload_response == "Y" ){
+      message = "Proceed with initial upload? (Y/N)"
+    )
+    if( is.null(upload_response) ) upload_response <- "N"
+    upload_response <- toupper(upload_response)
+    if( upload_response == "Y" ){
       # Upload the file. Make the modifiedTime match that of the local file
       googledrive::drive_upload(
         media = local_path, path = gdrive_dribble, overwrite = FALSE,
         modifiedTime = new_mtime, keepRevisionForever = TRUE
       )
     } else if ( upload_response == "N" ){
-      return("Aborting upload.")
+      return(cat("Aborting upload."))
     } else {
-      stop("Aborting upload. Response was not either 'Y' or 'N'.")
+      stop("Aborting upload. Response was neither 'Y' or 'N'.")
     }
   } else {
     # *Update File - If the file already exists on the gdrive, and the local is ahead, update the file*
@@ -69,43 +69,46 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
     if( compare_res$identical ) {
       # *If the files are identical, don't bother updating!*
       return(cat(paste0(
-        "Local is ", crayon::bold(compare_res$local_status), " the Gdrive. Skipping upload.\n"
+        "Local copy of ", crayon::bold(l_path$name), " is ", crayon::green(compare_res$local_status), " the Gdrive on ",
+        crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ". Skipping upload.\n"
       )))
     } else {
 
       if( compare_res$local_status == "behind" ){
         # * If local is behind, prompt the user to check before proceeding*
-        local_behind_response <- toupper(rstudioapi::showPrompt(
+        local_behind_response <- rstudioapi::showPrompt(
           title = "Notice!",
           message = paste0(
-            "Local copy of ", l_path$name,
-            " appears to be behind the Gdrive. Are you sure you want to continue with the upload? (Y/N)"
+            "!!! WARNING !!! Local copy of ", l_path$name,
+            " appears to be BEHIND the Gdrive. Are you sure you want to continue with the upload? (Y/N)"
           )
-        ))
-        if( is.null(local_behind_response) ){
-          return("Aborting upload.")
-        } else if( local_behind_response == "N" ){
-          return("Aborting upload.")
+        )
+        if( is.null(local_behind_response) ) local_behind_response <- "N"
+        local_behind_response <- toupper(local_behind_response)
+        if( local_behind_response == "N" ){
+          return(cat("Aborting upload."))
         } else if( local_behind_response != "Y" ){
-          return("Response was not 'N' or 'Y'. Aborting upload.")
+          stop("Aborting upload. Response was neither 'Y' or 'N'.")
         }
       }
 
+      # Local must be ahead of the gdrive.
+      cat(paste0("Local is ", crayon::bold("ahead of")), paste0("the gdrive: [ver", g_path$current_ver, "]\n"))
       # Prepare to update
       cat(paste0(
         crayon::bold(l_path$name), " in ", crayon::yellow(gdrive_dribble$path), " will be updated to ",
         crayon::yellow(paste0("[ver", g_path$current_ver + 1,  "]")), ".\n"
       ))
-      update_response <- toupper(rstudioapi::showPrompt(
+      update_response <- rstudioapi::showPrompt(
         title = "Notice!",
-        message = "Proceed with upload? (Y/N)"
-      ))
-      if( is.null(update_response) ){
-        stop("Aborting upload")
-      } else if ( update_response == "N"){
-        stop("Aborting upload.")
+        message = "Proceed with upload and update? (Y/N)"
+      )
+      if( is.null(update_response) ) update_response <- "N"
+      update_response <- toupper(update_response)
+      if ( update_response == "N"){
+        return(cat("Aborting upload."))
       } else if ( update_response != "Y") {
-        stop("Aborting upload. Response was not either 'Y' or 'N'.")
+        stop("Aborting upload. Response was neither 'Y' or 'N'.")
       } else if( update_response == "Y" ){
         # Perform the update, assigning the modified time of the file
         googledrive::drive_update(

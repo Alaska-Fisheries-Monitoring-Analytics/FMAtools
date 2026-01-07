@@ -47,38 +47,44 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
   }
 
   if( is.null(ver) ){
-    # *Downloading the most recent version*
+
+    # Downloading the most recent version
+
     if( l_path$local_exists ){
       # If a local version already exists, compare it with the gdrive version
-      compare_res <- compare_local_and_gdrive(l_path, g_path)
 
+      compare_res <- compare_local_and_gdrive(l_path, g_path)
       if( compare_res$local_status %in% c("up to date with", "ahead of") ){
-        # *If the local is ahead or up to date, skip the download*
+        # If the local is ahead or up to date, skip the download
 
         return(cat(paste0(
           "Local copy of ", crayon::bold(l_path$name), " is ", crayon::green(compare_res$local_status),
-          " the Gdrive. Skipping download.\n"
+          " the Gdrive on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ". Skipping download.\n"
         )))
+
       } else if( compare_res$local_status == "behind" ){
-        # *If the local is behind, prompt to download and overwrite to bring the local version up to date*
+        # If the local is behind, prompt to download and overwrite to bring the local version up to date
+
         cat(paste0("Local version of ", crayon::bold(l_path$name), " is ", crayon::red(compare_res$local_status), " the Gdrive!\n"))
-        download_response <- toupper(rstudioapi::showPrompt(
+        download_response <- rstudioapi::showPrompt(
           title = "Notice!",
           message = paste0(
             "Overwrite and update your local version of ", l_path$name, " to ", "[ver",
-            g_path$revision_lst[[1]]$version, "]", "? (Y/N)"
+            g_path$current_ver, "]", "? (Y/N)"
           )
-        ))
-        if( is.null(download_response) ){
-          return(cat(paste0("Aborting download of ", crayon::bold(l_path$name), ".")))
-        } else if( toupper(download_response) == "N" ) {
+        )
+        if( is.null(download_response) ) download_response <- "N"
+        download_response <- toupper(download_response)
+        if( toupper(download_response) == "N" ) {
           return(cat(paste0("Aborting download of ", crayon::bold(l_path$name), ".")))
         } else if ( toupper(download_response) != "Y") {
-          stop("You didnt enter `Y` or `N`! Aborting download.")
+          stop("Aborting upload. Response was neither 'Y' or 'N'.")
         }
       }
+
     } else {
-      # *If a local version does not exist*
+      # If a local version does not exist
+
       cat(paste0(
         "No local copy of ", crayon::bold(l_path$name), " found. Downloading the most recent version: ",
         crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ".\n"
@@ -88,12 +94,13 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
         g_path$current_ver, "]", "? (Y/N)"
       )
     }
-    # *Download the most recent version and set the modified time.*
+
+    # Download the most recent version and set the modified time.
     googledrive::drive_download(file = g_path$gdrive_item, path = local_path, overwrite = T)
     Sys.setFileTime(local_path, g_path$revision_lst[[g_path$current_ver]]$modifiedTime)
 
   } else {
-    # *Downloading a prior version*
+    # Downloading a prior version
 
     # First, convert numeric ver to integer class
     ver <- as.integer(ver)
@@ -103,7 +110,7 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
     )
 
     if( !file_test(op = "-f", ver_path) ){
-      # *If the file doesn't exist, download it*
+      # If the file doesn't exist, download it
 
       # Grab the desired version
       if( !(ver %in% seq_along(g_path$revision_lst)) ){
@@ -133,8 +140,8 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
         Sys.setFileTime(ver_path, revision_i$modifiedTime)
       }
     } else {
-      # *If the file already exists, skip the download*
-      # TODO `Could also check to make sure that the local version and the gdrive version matches? Perhaps overkill?`
+      # If the file already exists, skip the download
+
       return(cat(paste0(crayon::cyan(ver_path), " already exists locally. Skipping download.\n")))
     }
   }

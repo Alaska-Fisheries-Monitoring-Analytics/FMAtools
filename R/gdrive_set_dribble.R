@@ -56,7 +56,7 @@ gdrive_set_dribble <- function(gdrive_path = NULL, shared_id = "Analytics", fold
     sapply(dribble_out$drive_resource, "[[", "mimeType") == "application/vnd.google-apps.folder",
   ]
   if( nrow(dribble_out) == 0 ){
-    stop(paste0("Path ", crayon::yellow(gdrive_path), " was not found!"))
+    stop("The specified gdrive_path or folder_id does not direct to a folder!")
   } else if( nrow(dribble_out) > 1 ){
     stop({
       cat(paste0(
