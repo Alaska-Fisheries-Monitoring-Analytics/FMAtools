@@ -37,7 +37,7 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
 
   # Either upload or update the file
   if( nrow(g_path$gdrive_item) == 0 ) {
-    # *Upload File - If the file does not yet exist on the gdrive, upload the file to the gdrive*
+    # Upload File - If the file does not yet exist on the gdrive, upload the file to the gdrive
     cat(paste0(
       crayon::cyan(local_path), " will be uploaded to ", crayon::yellow(gdrive_dribble$path),
       " as ", crayon::yellow("[ver1]"), ".\n"
@@ -60,7 +60,7 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
       stop("Aborting upload. Response was neither 'Y' or 'N'.")
     }
   } else {
-    # *Update File - If the file already exists on the gdrive, and the local is ahead, update the file*
+    # Update File - If the file already exists on the gdrive, and the local is ahead, update the file
 
     # Compare the file sizes and modified dates of the local file and the head gdrive file
     compare_res <- compare_local_and_gdrive(l_path, g_path)
