@@ -1,10 +1,13 @@
 #' Download a File from the Shared Google Drive
 #'
 #' `gdrive_download()` is used to download the most recent version of a file in the Gdrive, or, if specified, an older
-#'  version of a file. Currently only works with `.rdata` and `.rds` type files. Nearly all other files we use should be
+#' version of a file. Currently only works with `.rdata` and `.rds` type files. Nearly all other files we use should be
 #' maintained the project's GitHub repository.
 #'
-#' If your local version is 'ahead of' the Gdrive version, downloads are aborted so as not accidentally overwrite your
+#' For convenience, this function invisibly returns the file path of the request file. That is, you can wrap this call
+#' with `load()` to immediately load your file.
+#'
+#' If your local version is 'ahead of' the Gdrive version, downloads are skipped so as not accidentally overwrite your
 #' existing file. If you would like to revert your local version to the most up-to-date version, manually delete your
 #' local version and perform the download.
 #'
@@ -16,12 +19,17 @@
 #'  file.
 #' @param temp boolean, default is FALSE. If TRUE, downloads the specified file to a temporary directory.
 #'
-#' @return Returns a message telling whether the download was performed and if so, where the file was saved.
+#' @return invisibly returns the file path of the requested file.
 #' @export
 #'
 #' @examples
 #' \dontrun{
+#'   # Attempt to download the most recent version of a file on the shared Gdrive
 #'   gdrive_download(local_path, gdrive_dribble)
+#'
+#'   # Download an older version of a file to a temporary folder and load it
+#'   load(gdrive_download(local_path, gdrive_dribble, ver = 1, temp = T))
+#'
 #' }
 gdrive_download <- function(local_path, gdrive_dribble, ver = NULL, temp = F) {
   # `local_path` is the local path to where you want to save the file and contains the name of the file.
@@ -59,7 +67,7 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL, temp = F) {
       temp_path <- paste0(normalizePath(tempdir(), winslash = "/"), "/", g_path$gdrive_item$name)
       # Download the file
       cat(paste0("Downloading ", crayon::yellow(g_path$gdrive_item$name), " to a temporary folder."))
-      googledrive::drive_download(file = g_path$gdrive_item, path = temp_folder, overwrite = T)
+      googledrive::drive_download(file = g_path$gdrive_item, path = temp_path, overwrite = T)
       # Return the path so that the output can be easily loaded
       return(invisible(temp_path))
     } else {
