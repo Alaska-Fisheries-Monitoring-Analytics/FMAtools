@@ -4,6 +4,10 @@
 #'  version of a file. Currently only works with `.rdata` and `.rds` type files. Nearly all other files we use should be
 #' maintained the project's GitHub repository.
 #'
+#' If your local version is 'ahead of' the Gdrive version, downloads are aborted so as not accidentally overwrite your
+#' existing file. If you would like to revert your local version to the most up-to-date version, manually delete your
+#' local version and perform the download.
+#'
 #' @param local_path the local path to the file you wish to download, including the directory (folder paths) and the
 #' name of the file, which should match the name of the file on the Gdrive.
 #' @param gdrive_dribble the `dribble` class object representing the folder in the Gdrive where your desired file
