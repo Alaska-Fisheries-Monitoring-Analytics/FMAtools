@@ -558,7 +558,7 @@ compare_local_and_gdrive <- function(l_path, g_path){
 
     # Print the modified dates of the local and gdrive versions
     cat(paste0(
-      "Modified datetimes of ", crayon::bold(l_path$name), ":\n- Local:  ", round(local_info$mtime),
+      "The `Date modified` of ", crayon::bold(l_path$name), ":\n- Local:  ", round(local_info$mtime),
       "\n- Gdrive: ", gdrive_head$modifiedTime, "\n"
     ))
   }
