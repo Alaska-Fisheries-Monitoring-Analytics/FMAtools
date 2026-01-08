@@ -28,16 +28,16 @@ gdrive_set_dribble(folder_id = "1x0UjP5tEyTCgUdMq_43PoN2ww7zFrjaA")
 
 # Save and upload a dummy dataset
 dummy_dat <- cars
-local_dat_filepath <- "test_data/dummy_dat.R"
+local_dat_filepath <- "test_data/dummy_dat.Rdata"
 save(dummy_dat, file = local_dat_filepath)
 gdrive_upload(local_dat_filepath, test_data_dribble)
 #   local_path <- local_dat_filepath; gdrive_dribble <- test_data_dribble; ver = NULL
 
 # Make an edit (but save it locally somewhere else) so that the gdrive is 'ahead' of the local
-#   local_path <- "test_data/edit/dummy_dat.R"; gdrive_dribble <- test_data_dribble; ver = NULL
+#   local_path <- "test_data/edit/dummy_dat.Rdata"; gdrive_dribble <- test_data_dribble; ver = NULL
 dummy_dat <- rbind(dummy_dat, dummy_dat[1, ])
-save(dummy_dat, file = "test_data/edit/dummy_dat.R")
-gdrive_upload("test_data/edit/dummy_dat.R", test_data_dribble)
+save(dummy_dat, file = "test_data/edit/dummy_dat.Rdata")
+gdrive_upload("test_data/edit/dummy_dat.Rdata", test_data_dribble)
 
 # Try uploading our local out-of-date version. Should get a warning.
 # Cancel! Don't upload!
@@ -49,14 +49,14 @@ gdrive_download(local_dat_filepath, test_data_dribble)
 #   local_path <- local_dat_filepath; gdrive_dribble <- test_data_dribble; ver = NULL
 
 # Now that we are up to date, check the messages when you're up-to-date
-#   local_path <- "test_data/dummy_dat.R"; gdrive_dribble <- test_data_dribble; ver = NULL
+#   local_path <- "test_data/dummy_dat.Rdata"; gdrive_dribble <- test_data_dribble; ver = NULL
 gdrive_upload(local_dat_filepath, test_data_dribble)
 gdrive_download(local_dat_filepath, test_data_dribble)
 
 ### Save temporary files and load them ----
 # Download a gdrive file to a temporary local folder and load it. Works with older versions as well
 (load(gdrive_download(local_dat_filepath, test_data_dribble, ver = 1, temp = T)))
-(load(gdrive_download("test_data/edit/dummy_dat.R", test_data_dribble, temp = T)))
+(load(gdrive_download("test_data/edit/dummy_dat.Rdata", test_data_dribble, temp = T)))
 
 
 #======================================================================================================================#
