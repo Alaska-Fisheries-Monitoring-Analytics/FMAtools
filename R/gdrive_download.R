@@ -1,24 +1,37 @@
 #' Download a File from the Shared Google Drive
 #'
 #' `gdrive_download()` is used to download the most recent version of a file in the Gdrive, or, if specified, an older
-#'  version of a file. Currently only works with `.rdata` and `.rds` type files. Nearly all other files we use should be
+#' version of a file. Currently only works with `.rdata` and `.rds` type files. Nearly all other files we use should be
 #' maintained the project's GitHub repository.
+#'
+#' For convenience, this function invisibly returns the file path of the request file. That is, you can wrap this call
+#' with `load()` to immediately load your file.
+#'
+#' If your local version is 'ahead of' the Gdrive version, downloads are skipped so as not accidentally overwrite your
+#' existing file. If you would like to revert your local version to the most up-to-date version, manually delete your
+#' local version and perform the download.
 #'
 #' @param local_path the local path to the file you wish to download, including the directory (folder paths) and the
 #' name of the file, which should match the name of the file on the Gdrive.
 #' @param gdrive_dribble the `dribble` class object representing the folder in the Gdrive where your desired file
 #' resides.
-#' @param ver Optional, default is NULL. If specified as a length 1 number, will download the requested version of the
+#' @param ver optional, default is NULL. If specified as a length 1 number, will download the requested version of the
 #'  file.
+#' @param temp boolean, default is FALSE. If TRUE, downloads the specified file to a temporary directory.
 #'
-#' @return Returns a message telling whether the download was performed and if so, where the file was saved.
+#' @return invisibly returns the file path of the requested file.
 #' @export
 #'
 #' @examples
 #' \dontrun{
+#'   # Attempt to download the most recent version of a file on the shared Gdrive
 #'   gdrive_download(local_path, gdrive_dribble)
+#'
+#'   # Download an older version of a file to a temporary folder and load it
+#'   load(gdrive_download(local_path, gdrive_dribble, ver = 1, temp = T))
+#'
 #' }
-gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
+gdrive_download <- function(local_path, gdrive_dribble, ver = NULL, temp = F) {
   # `local_path` is the local path to where you want to save the file and contains the name of the file.
   # `gdrive_dribble` is the dribble of the folder containing the file you want to pull
 
@@ -41,15 +54,57 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
   }
 
   # Can the directory in local_path be found?
-  if( nchar(l_path$directory) > 0 ) {
+  if( temp == F & nchar(l_path$directory) > 0 ) {
     if( !file_test(op = "-d",  l_path$directory) ) {
       stop(paste0("Local path, ", crayon::bold(l_path$directory), ", not found."))}
   }
 
+  # Temporary download
+  if( temp == T ){
+
+    if( is.null(ver)) {
+      # Create a temporary folder and attach the file name
+      temp_path <- paste0(normalizePath(tempdir(), winslash = "/"), "/", g_path$gdrive_item$name)
+      # Download the file
+      cat(paste0("Downloading ", crayon::yellow(g_path$gdrive_item$name), " to a temporary folder."))
+      googledrive::drive_download(file = g_path$gdrive_item, path = temp_path, overwrite = T)
+      # Return the path so that the output can be easily loaded
+      return(invisible(temp_path))
+    } else {
+      ver <- as.integer(ver)
+      # check to see if the file already exists
+      ver_path <- paste0(l_path$name_no_ext, "_v", formatC(ver, width = 3, digits = 0, flag = "0" ), l_path$extension)
+      if( !(ver %in% seq_along(g_path$revision_lst)) ){
+        stop(cat(paste0(
+          "No ", crayon::yellow(paste0("[ver", ver, "]")), " of ", crayon::bold(l_path$name),
+          " exists! Currently on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ". Aborting download.\n"
+        )))
+      }
+      # Create a temporary folder and attach the file name
+      temp_path <- paste0(normalizePath(tempdir(), winslash = "/"), "/", ver_path)
+      # Subset the revision list to the desired revision
+      revision_i <- g_path$revision_lst[[ver]]
+      # Download the file
+      revision_raw <- gargle::request_make(gargle::request_build(
+        method = "GET",
+        path = "drive/v3/files/{fileId}/revisions/{revisionId}",
+        params = list(
+          fileId = g_path$gdrive_item$id, revisionId = revision_i$id, supportsAllDrives = TRUE, alt = "media"
+        ),
+        token = googledrive::drive_token()
+      ))
+      # Write the file the local path and set its modified date
+      cat(paste0("Downloading ", crayon::yellow(ver_path), " to a temporary folder.\n"))
+      writeBin(revision_raw$content, con = temp_path)
+      # Return the path so that the output can be easily loaded
+      return(invisible(temp_path))
+    }
+  }
+
+  # Non-temporary download
   if( is.null(ver) ){
 
     # Downloading the most recent version
-
     if( l_path$local_exists ){
       # If a local version already exists, compare it with the gdrive version
 
@@ -98,6 +153,8 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
     # Download the most recent version and set the modified time.
     googledrive::drive_download(file = g_path$gdrive_item, path = local_path, overwrite = T)
     Sys.setFileTime(local_path, g_path$revision_lst[[g_path$current_ver]]$modifiedTime)
+    # Return the path so that the output can be easily loaded
+    return(invisible(l_path$path))
 
   } else {
     # Downloading a prior version
@@ -118,31 +175,32 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL) {
           "No ", crayon::yellow(paste0("[ver", ver, "]")), " of ", crayon::bold(l_path$name),
           " exists! Currently on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ". Aborting download.\n"
         )))
-      } else {
-
-        # Subset the revision list to the desired revision
-        revision_i <- g_path$revision_lst[[ver]]
-
-        # If the version is found, download it as raw bytes
-        revision_raw <- gargle::request_make(gargle::request_build(
-          method = "GET",
-          path = "drive/v3/files/{fileId}/revisions/{revisionId}",
-          params = list(
-            fileId = g_path$gdrive_item$id, revisionId = revision_i$id, supportsAllDrives = TRUE, alt = "media"
-          ),
-          token = googledrive::drive_token()
-        ))
-        # Write the file the local path and set its modified date
-        cat(paste0(
-          "Downloading ", crayon::yellow(paste0(l_path$name, " [ver", ver, "]")), " as ", crayon::cyan(ver_path), ".\n"
-        ))
-        writeBin(revision_raw$content, con = ver_path)
-        Sys.setFileTime(ver_path, revision_i$modifiedTime)
       }
+
+      # Subset the revision list to the desired revision
+      revision_i <- g_path$revision_lst[[ver]]
+      # If the version is found, download it as raw bytes
+      revision_raw <- gargle::request_make(gargle::request_build(
+        method = "GET",
+        path = "drive/v3/files/{fileId}/revisions/{revisionId}",
+        params = list(
+          fileId = g_path$gdrive_item$id, revisionId = revision_i$id, supportsAllDrives = TRUE, alt = "media"
+        ),
+        token = googledrive::drive_token()
+      ))
+      # Write the file the local path and set its modified date
+      cat(paste0(
+        "Downloading ", crayon::yellow(paste0(l_path$name, " [ver", ver, "]")), " as ", crayon::cyan(ver_path), ".\n"
+      ))
+      writeBin(revision_raw$content, con = ver_path)
+      Sys.setFileTime(ver_path, revision_i$modifiedTime)
+      # Return the path so that the output can be easily loaded
+      return(invisible(l_path$path))
+
     } else {
       # If the file already exists, skip the download
-
-      return(cat(paste0(crayon::cyan(ver_path), " already exists locally. Skipping download.\n")))
+      cat(paste0(crayon::cyan(ver_path), " already exists locally. Skipping download.\n"))
+      return(invisible(l_path$path))
     }
   }
 }

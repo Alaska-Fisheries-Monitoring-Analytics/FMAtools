@@ -4,7 +4,7 @@
 \alias{gdrive_download}
 \title{Download a File from the Shared Google Drive}
 \usage{
-gdrive_download(local_path, gdrive_dribble, ver = NULL)
+gdrive_download(local_path, gdrive_dribble, ver = NULL, temp = F)
 }
 \arguments{
 \item{local_path}{the local path to the file you wish to download, including the directory (folder paths) and the
@@ -13,19 +13,34 @@ name of the file, which should match the name of the file on the Gdrive.}
 \item{gdrive_dribble}{the \code{dribble} class object representing the folder in the Gdrive where your desired file
 resides.}
 
-\item{ver}{Optional, default is NULL. If specified as a length 1 number, will download the requested version of the
+\item{ver}{optional, default is NULL. If specified as a length 1 number, will download the requested version of the
 file.}
+
+\item{temp}{boolean, default is FALSE. If TRUE, downloads the specified file to a temporary directory.}
 }
 \value{
-Returns a message telling whether the download was performed and if so, where the file was saved.
+invisibly returns the file path of the requested file.
 }
 \description{
 \code{gdrive_download()} is used to download the most recent version of a file in the Gdrive, or, if specified, an older
 version of a file. Currently only works with \code{.rdata} and \code{.rds} type files. Nearly all other files we use should be
 maintained the project's GitHub repository.
 }
+\details{
+For convenience, this function invisibly returns the file path of the request file. That is, you can wrap this call
+with \code{load()} to immediately load your file.
+
+If your local version is 'ahead of' the Gdrive version, downloads are skipped so as not accidentally overwrite your
+existing file. If you would like to revert your local version to the most up-to-date version, manually delete your
+local version and perform the download.
+}
 \examples{
 \dontrun{
+  # Attempt to download the most recent version of a file on the shared Gdrive
   gdrive_download(local_path, gdrive_dribble)
+
+  # Download an older version of a file to a temporary folder and load it
+  load(gdrive_download(local_path, gdrive_dribble, ver = 1, temp = T))
+
 }
 }

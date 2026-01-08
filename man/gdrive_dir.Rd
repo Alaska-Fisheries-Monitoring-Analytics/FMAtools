@@ -9,7 +9,7 @@ gdrive_dir(shared_id = c("Analytics"), folder = NULL)
 \arguments{
 \item{shared_id}{An alias of a Shared Google Drive. By default, the drive for FMA Analytics.}
 
-\item{folder}{A character file path of folders, i.e., "Projects", that will narrow down your search.}
+\item{folder}{A dribble or a character file path of folders, i.e., "Projects", that will narrow down your search.}
 }
 \value{
 Returns a data frame of the folder structure of the Shared Google Drive.

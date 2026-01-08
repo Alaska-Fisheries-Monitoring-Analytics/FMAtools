@@ -537,7 +537,7 @@ compare_local_and_gdrive <- function(l_path, g_path){
       method = "GET",
       path = "drive/v3/files/{fileId}",
       params = list(
-        fileId = g_path$gdrive_item$id, revisionId = gdrive_head$id, supportsAllDrives = TRUE, alt = "media"
+        fileId = g_path$gdrive_item$id, supportsAllDrives = TRUE, alt = "media"
       ),
       token = googledrive::drive_token()
     ))
@@ -563,8 +563,8 @@ compare_local_and_gdrive <- function(l_path, g_path){
     ))
   }
 
+  # If the local is behind, check to see if the local_mtime matches any prior gdrive versions
   if( local_status == "behind" ){
-    # If the local is behind, check to see if the local_mtime matches any prior gdrive versions
     local_match_ver <- (sapply(g_path$revision_lst, "[[", "modifiedTime") == trunc(local_info$mtime))
     # If there is a match, print the version
     if( any(local_match_ver) ){
@@ -573,6 +573,39 @@ compare_local_and_gdrive <- function(l_path, g_path){
         crayon::yellow(paste0("[ver", which(local_match_ver), "]")),
         " whereas the Gdrive is on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ".\n"
       ))
+    }
+  }
+
+  # Check to see if the file size is identical to an older version
+  if ( length(g_path$revision_lst) > 1) {
+    local_match_ver <- which(
+      as.numeric(sapply(g_path$revision_lst[-g_path$current_ver], "[[", "size")) == trunc(local_info$size)
+    )
+    if( length(local_match_ver) ) {
+      # If the file size matches, compare the bytes
+
+      local_raw <- readBin(l_path$path, what = "raw", n = local_info$size)
+
+      bytes.lst <- lapply(local_match_ver, function(x) {
+        gargle::request_make(gargle::request_build(
+          method = "GET",
+          path = "drive/v3/files/{fileId}/revisions/{revisionId}",
+          params = list(
+            fileId = g_path$gdrive_item$id, revisionId = g_path$revision_lst[[local_match_ver]]$id,
+            supportsAllDrives = TRUE, alt = "media"
+          ),
+          token = googledrive::drive_token()
+        ))$content
+      })
+      bytes.match <- sapply(bytes.lst, function(x) identical(local_raw,  x))
+      # If there is a match of bytes, print a warning in the console
+      if( any(bytes.match) ){
+        cat(paste0(
+          crayon::red("!!! Warning !!!  "), " Local copy of ", crayon::bold(l_path$name), " is identical to the old ",
+          crayon::yellow(paste0("[ver", max(which(bytes.match)), "]")),
+          " whereas the Gdrive is on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ".\n"
+        ))
+      }
     }
   }
 
