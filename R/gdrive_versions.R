@@ -1,6 +1,6 @@
 #' View the Revision History of a Data File on the Gdrive
 #'
-#' @param gdrive_file the name of the .rdata or .rds file on the Gdrive
+#' @param local_path the name of the .rdata or .rds file on the Gdrive
 #' @param gdrive_dribble the `dribble` class object of the folder where your requested file resides.
 #'
 #' @return Returns a data.frame showing the file's revision history, including modification dates and users and file size
@@ -11,22 +11,25 @@
 #'    "geoff_mayhew_tutorial.rdata",
 #'    gdrive_set_dribble("Google Drive Test/")
 #' )
-gdrive_versions <- function(gdrive_file, gdrive_dribble){
+gdrive_versions <- function(local_path, gdrive_dribble){
 
   # Ensure googledrive token is active
   gdrive_token()
 
-  # Make the dribble of the gdrive_file
+  # This function takes the local path and removes any directories preceding the file name.
+  local_path <- basename(local_path)
+
+  # Make the dribble of the local_path
   gdrive_item <- googledrive::with_drive_quiet(
     googledrive::drive_get(
-      path = paste0(gdrive_dribble$path, gdrive_file),
+      path = paste0(gdrive_dribble$path, local_path),
       shared_drive = googledrive::as_id(gdrive_dribble$shared_drive_id)
     )
   )
 
   if( nrow(gdrive_item) == 0 ) {
     stop(paste0(
-      "No file named ", crayon::yellow(gdrive_file), " found in gdrive folder ",
+      "No file named ", crayon::yellow(local_path), " found in gdrive folder ",
       crayon::yellow(gdrive_dribble$path), "."
     ))
   }
@@ -61,7 +64,7 @@ gdrive_versions <- function(gdrive_file, gdrive_dribble){
   rev_info_df <- rev_info_df[, c("Version", "modifiedTime", "modifiedBy", "size", "keepForever")]
 
   # Outputs
-  cat(crayon::yellow(paste0(gdrive_dribble$path, gdrive_file)), "\n")
+  cat(crayon::yellow(paste0(gdrive_dribble$path, local_path)), "\n")
   rev_info_df[rev(seq_along(rev_info)), ]
 
 }
