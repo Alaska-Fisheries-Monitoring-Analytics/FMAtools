@@ -60,3 +60,7 @@ gdrive_download(local_dat_filepath, test_data_dribble)
 
 
 #======================================================================================================================#
+
+### Check file versions ----
+
+gdrive_versions(local_dat_filepath, test_data_dribble)

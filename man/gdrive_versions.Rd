@@ -4,10 +4,10 @@
 \alias{gdrive_versions}
 \title{View the Revision History of a Data File on the Gdrive}
 \usage{
-gdrive_versions(gdrive_file, gdrive_dribble)
+gdrive_versions(local_path, gdrive_dribble)
 }
 \arguments{
-\item{gdrive_file}{the name of the .rdata or .rds file on the Gdrive}
+\item{local_path}{the name of the .rdata or .rds file on the Gdrive}
 
 \item{gdrive_dribble}{the \code{dribble} class object of the folder where your requested file resides.}
 }

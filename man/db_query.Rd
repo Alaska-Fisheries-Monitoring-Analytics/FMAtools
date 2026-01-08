@@ -7,7 +7,7 @@
 db_query(query, dsn = "channel_afsc")
 }
 \arguments{
-\item{query}{the character string}
+\item{query}{optional, the character string for a query}
 
 \item{dsn}{the dsn as specified in your .Renviron file}
 }
