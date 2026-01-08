@@ -11,7 +11,7 @@
     repo_path <- "Alaska-Fisheries-Monitoring-Analytics/FMAtools"
 
     # Use that path to build the API URL
-    github_api_url <- paste0("https://api.github.com/repos/", repo_path, "/commits/main")
+    github_api_url <- paste0("https://api.github.com/repos/", repo_path, "/git/refs/heads/main")
 
     try({
       con <- url(github_api_url)
