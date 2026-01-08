@@ -50,9 +50,9 @@ AFSCid = <USERNAME>
 AFSCpw = <PASSWORD>
 channel_afsc = "library(odbc); dbConnect(drv = odbc::odbc(), dsn = 'AFSC', UID = Sys.getenv('AFSCid'), PWD = Sys.getenv('AFSCpw'))"
 ```
-You can test your connection with a simple query. 
+You can test your connection leaving the `query` argument blank, which will simply query the date time. 
 ``` r
-FMAtools::db_query(paste0("select sysdate from dual"), dsn = "channel_afsc")
+FMAtools::db_query(dsn = "channel_afsc")
 ```
 
 
