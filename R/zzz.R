@@ -3,7 +3,7 @@
 
 .onAttach <- function(libname, pkgname) {
   if (interactive()) {
-
+    # 1. Get local SHA
     local_sha <- packageDescription(pkgname)$RemoteSha
     if (is.null(local_sha)) return()
 
@@ -17,15 +17,21 @@
       con <- url(github_api_url)
       on.exit(close(con))
 
-      suppressWarnings(line <- readLines(con, n = 15))
-      latest_sha <- gsub('.*"sha": "([^"]+)".*', "\\1", line[grep('"sha"', line)[1]])
+      # Read everything available and collapse it into one single string
+      raw_text <- paste(readLines(con, warn = FALSE), collapse = "")
 
-      if (substr(local_sha, 1, 7) != substr(latest_sha, 1, 7)) {
-        packageStartupMessage("── Update Available ───────────────────────────────────────")
-        packageStartupMessage("  A newer version of ", pkgname, " is available.")
-        # We use the repo_path variable here too!
-        packageStartupMessage("  Run: devtools::install_github('", repo_path, "')")
-        packageStartupMessage("───────────────────────────────────────────────────────────")
+      # 2. Extract the SHA using a more precise pattern
+      # This looks for "sha": followed by a 40-character hex string
+      latest_sha <- gsub('.*"sha"\\s*:\\s*"([a-f0-9]{40})".*', "\\1", raw_text)
+
+      # 3. Final Check: Ensure we actually extracted a valid 40-char hex string
+      # If the gsub fails, it returns the whole raw_text, so we check the length.
+      if (nchar(latest_sha) == 40) {
+        if (substr(local_sha, 1, 7) != substr(latest_sha, 1, 7)) {
+          packageStartupMessage("── Update Available for ", pkgname, " ──")
+          packageStartupMessage("  Newer commits are available on GitHub.")
+          packageStartupMessage("  Run: devtools::install_github('", repo_path, "')")
+        }
       }
     }, silent = TRUE)
   }
