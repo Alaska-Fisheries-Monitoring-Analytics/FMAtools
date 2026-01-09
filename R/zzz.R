@@ -30,6 +30,7 @@
         if (substr(local_sha, 1, 7) != substr(latest_sha, 1, 7)) {
           packageStartupMessage("── Update Available for ", pkgname, " ──")
           packageStartupMessage("  Newer commits are available on GitHub.")
+          packageStartupMessage("  Restart your session (Ctrl+Shift+F10)")
           packageStartupMessage("  Run: devtools::install_github('", repo_path, "')")
         }
       }
