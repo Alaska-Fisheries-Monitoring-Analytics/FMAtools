@@ -115,7 +115,7 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL, temp = F) {
           "Local copy of ", crayon::bold(l_path$name), " is ", crayon::green(compare_res$local_status),
           " the Gdrive on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ". Skipping download.\n"
         ))
-        return(invisible(l_path$path)
+        return(invisible(l_path$path))
 
       } else if( compare_res$local_status == "behind" ){
         # If the local is behind, prompt to download and overwrite to bring the local version up to date
