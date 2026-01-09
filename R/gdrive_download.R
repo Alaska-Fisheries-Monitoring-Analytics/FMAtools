@@ -111,11 +111,11 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL, temp = F) {
       compare_res <- compare_local_and_gdrive(l_path, g_path)
       if( compare_res$local_status %in% c("up to date with", "ahead of") ){
         # If the local is ahead or up to date, skip the download
-
-        return(cat(paste0(
+        cat(paste0(
           "Local copy of ", crayon::bold(l_path$name), " is ", crayon::green(compare_res$local_status),
           " the Gdrive on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ". Skipping download.\n"
-        )))
+        ))
+        return(invisible(l_path$path)
 
       } else if( compare_res$local_status == "behind" ){
         # If the local is behind, prompt to download and overwrite to bring the local version up to date
@@ -133,7 +133,7 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL, temp = F) {
         if( toupper(download_response) == "N" ) {
           return(cat(paste0("Aborting download of ", crayon::bold(l_path$name), ".")))
         } else if ( toupper(download_response) != "Y") {
-          stop("Aborting upload. Response was neither 'Y' or 'N'.")
+          stop("Aborting download. Response was neither 'Y' or 'N'.")
         }
       }
 
