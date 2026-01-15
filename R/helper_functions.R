@@ -591,7 +591,7 @@ compare_local_and_gdrive <- function(l_path, g_path){
           method = "GET",
           path = "drive/v3/files/{fileId}/revisions/{revisionId}",
           params = list(
-            fileId = g_path$gdrive_item$id, revisionId = g_path$revision_lst[[local_match_ver]]$id,
+            fileId = g_path$gdrive_item$id, revisionId = g_path$revision_lst[[x]]$id,
             supportsAllDrives = TRUE, alt = "media"
           ),
           token = googledrive::drive_token()
@@ -602,7 +602,7 @@ compare_local_and_gdrive <- function(l_path, g_path){
       if( any(bytes.match) ){
         cat(paste0(
           crayon::red("!!! Warning !!!  "), " Local copy of ", crayon::bold(l_path$name), " is identical to the old ",
-          crayon::yellow(paste0("[ver", max(which(bytes.match)), "]")),
+          crayon::yellow(paste0("[ver", max(local_match_ver[bytes.match]), "]")),
           " whereas the Gdrive is on ", crayon::yellow(paste0("[ver", g_path$current_ver, "]")), ".\n"
         ))
       }
