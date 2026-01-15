@@ -200,7 +200,7 @@ gdrive_download <- function(local_path, gdrive_dribble, ver = NULL, temp = F) {
     } else {
       # If the file already exists, skip the download
       cat(paste0(crayon::cyan(ver_path), " already exists locally. Skipping download.\n"))
-      return(invisible(l_path$path))
+      return(invisible(ver_path))
     }
   }
 }
