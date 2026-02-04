@@ -50,9 +50,11 @@ AFSCid = <USERNAME>
 AFSCpw = <PASSWORD>
 channel_afsc = "library(odbc); dbConnect(drv = odbc::odbc(), dsn = 'AFSC', UID = Sys.getenv('AFSCid'), PWD = Sys.getenv('AFSCpw'))"
 ```
+Also, ensure that you have a `tnsnames.ora` file in your `C:/Oracle` folder. If you don't have one or if it's out of date, create a text document and paste the contents of [this page](https://docs.google.com/document/d/1O_msTtMN8D5sz_7LHzu7zep7kpYxNoK7gg4IqFVJY8E/edit?tab=t.0). Unless otherwise specified, R will look for your oracle configuration file in `C:Oracle`. 
+
 You can test your connection leaving the `query` argument blank, which will simply query the date time. 
 ``` r
 FMAtools::db_query(dsn = "channel_afsc")
 ```
-
+If you have multiple database connections, ensure that you have separate unique names in your `.Renviron` (e.g., `channel_afsc` and `channel_akro`) pointing to a corresponding entry in `tnsnames.ora` and that the `dsn` argument of `db_query()` is correctly specified for the database you're querying.  
 
