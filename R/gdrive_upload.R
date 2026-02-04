@@ -8,6 +8,7 @@
 #'
 #' @param local_path the file path to the local file that you wish to upload or update.
 #' @param gdrive_dribble the `dribble` object of the Gdrive folder you wish to upload to, created by `gdrive_set_dribble`.
+#' @param skip_prompt skips the prompt asking the user if they are sure they want to upload when local is ahead of gdrive. FALSE by default.
 #' @export
 #'
 #' @return Returns messages regarding whether the upload was completed, and if so, the version number.
@@ -16,7 +17,7 @@
 #' \dontrun{
 #'   gdrive_upload(local_path, gdrive_dribble)
 #' }
-gdrive_upload <- function(local_path, gdrive_dribble) {
+gdrive_upload <- function(local_path, gdrive_dribble, skip_prompt = FALSE) {
 
   # Ensure googledrive token is active
   gdrive_token()
@@ -35,6 +36,11 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
   # convert this to the format Google wants
   new_mtime <- paste0(sub("(?<=[0-9])( )(?=[0-9])", "T", format(local_mtime, tz = "GMT"), perl = T), ".000Z")
 
+  if(skip_prompt) {
+    upload_response <- "Y"
+    update_response <- "Y"
+  }
+
   # Either upload or update the file
   if( nrow(g_path$gdrive_item) == 0 ) {
     # Upload File - If the file does not yet exist on the gdrive, upload the file to the gdrive
@@ -42,10 +48,12 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
       crayon::cyan(local_path), " will be uploaded to ", crayon::yellow(gdrive_dribble$path),
       " as ", crayon::yellow("[ver1]"), ".\n"
     ))
-    upload_response <- rstudioapi::showPrompt(
-      title = "Notice!",
-      message = "Proceed with initial upload? (Y/N)"
-    )
+    if( !skip_prompt ) {
+      upload_response <- rstudioapi::showPrompt(
+        title = "Notice!",
+        message = "Proceed with initial upload? (Y/N)"
+      )
+    }
     if( is.null(upload_response) ) upload_response <- "N"
     upload_response <- toupper(upload_response)
     if( upload_response == "Y" ){
@@ -99,10 +107,12 @@ gdrive_upload <- function(local_path, gdrive_dribble) {
         crayon::bold(l_path$name), " in ", crayon::yellow(gdrive_dribble$path), " will be updated to ",
         crayon::yellow(paste0("[ver", g_path$current_ver + 1,  "]")), ".\n"
       ))
-      update_response <- rstudioapi::showPrompt(
-        title = "Notice!",
-        message = "Proceed with upload and update? (Y/N)"
-      )
+      if( !skip_prompt ) {
+        update_response <- rstudioapi::showPrompt(
+          title = "Notice!",
+          message = "Proceed with upload and update? (Y/N)"
+        )
+      }
       if( is.null(update_response) ) update_response <- "N"
       update_response <- toupper(update_response)
       if ( update_response == "N"){
