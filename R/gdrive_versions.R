@@ -2,6 +2,7 @@
 #'
 #' @param local_path the name of the .rdata or .rds file on the Gdrive
 #' @param gdrive_dribble the `dribble` class object of the folder where your requested file resides.
+#' @param ... not used, but allows you to easily replace calls to gdrive_versions without removing additional args
 #'
 #' @return Returns a data.frame showing the file's revision history, including modification dates and users and file size
 #' @export
@@ -11,7 +12,7 @@
 #'    "geoff_mayhew_tutorial.rdata",
 #'    gdrive_set_dribble("Google Drive Test/")
 #' )
-gdrive_versions <- function(local_path, gdrive_dribble){
+gdrive_versions <- function(local_path, gdrive_dribble, ...){
 
   # Ensure googledrive token is active
   gdrive_token()

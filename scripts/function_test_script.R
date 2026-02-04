@@ -61,5 +61,9 @@ gdrive_download(local_dat_filepath, test_data_dribble)
 #======================================================================================================================#
 
 ### Check file versions ----
-
+local_dat_filepath <- "test_data/dummy_dat.Rdata"
 gdrive_versions(local_dat_filepath, test_data_dribble)
+# Should also work if you have other arguments, like if you're just changing a call to gdrive_download()
+gdrive_versions(local_dat_filepath, test_data_dribble, ver = 3, temp = T)
+
+
